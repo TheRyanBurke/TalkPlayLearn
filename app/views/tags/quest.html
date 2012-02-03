@@ -1,0 +1,11 @@
+${_quest.title}
+<br />
+${_quest.description}
+<br />
+<ol>
+#{list items:_quest.objectives, as:'objective'}
+<li>
+#{objective objective:objective _progressMap.get(objective.id):completions /}
+</li>
+#{/list}
+</ol>

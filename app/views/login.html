@@ -1,0 +1,18 @@
+You are 
+#{if currentUser}
+	${currentUser.displayname}
+	<br /> <a href="@{logout()}">Logout</a> 
+#{/if}
+#{else}
+	not logged in.<br />
+	Login as:
+	#{form @login() }
+	
+	<select name="userid">
+		#{list items:users, as:'user'}
+		<option value="${user.id}">${user.displayname}</option>
+		#{/list}
+	</select> 
+	<button type="submit">Login</button>
+	#{/form}
+#{/else}

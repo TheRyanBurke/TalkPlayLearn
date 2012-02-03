@@ -1,0 +1,9 @@
+<h2>Users</h2>
+
+#{if _users}
+	<ul>
+	#{list items:_users, as:'user'}
+		<li>${user.displayname} - ${user.username}</li>
+	#{/list}
+	</ul>
+#{/if}

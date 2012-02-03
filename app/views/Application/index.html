@@ -1,4 +1,18 @@
 #{extends 'main.html' /}
+
 #{set title:'Home' /}
 
-#{welcome /}
+#{include 'login.html' /}
+
+#{userList users:users /}
+
+<br /><br />
+
+#{questList quests:quests userid:currentUser?.id /}
+
+<br /><br />
+
+#{if currentUser && engagedQuests}
+<h3>${currentUser.displayname}'s quests</h3>
+#{myQuests engagedQuests:engagedQuests /}
+#{/if}

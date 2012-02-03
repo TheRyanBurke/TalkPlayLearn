@@ -1,0 +1,13 @@
+<h2>My Quest Log</h2>
+
+#{if _engagedQuests}
+
+#{list items:_engagedQuests, as:'engagedQuest'}
+#{quest engagedQuest.quest:quest engagedQuest.objectiveProgress:progressMap /}
+
+
+#{/list}
+
+
+
+#{/if}

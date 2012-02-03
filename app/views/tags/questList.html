@@ -1,0 +1,21 @@
+<h2>Quests</h2>
+
+#{if _quests}
+	<ul>
+	#{list items:_quests, as:'quest'}
+		<li>
+			${quest.title} - ${quest.description} 
+			#{if _userid}
+			- <a href="@{beginQuest()/${_userid}/${quest.id}}">Start Quest</a>
+			#{/if}
+			#{if quest.objectives}
+			<ol>
+			#{list items:quest.objectives, as:'objective'}
+				<li>${objective.description}: 0/${objective.requiredCompletions}</li>
+			#{/list}
+			</ol>
+			#{/if}
+		</li>
+	#{/list}
+	</ul>
+#{/if}
