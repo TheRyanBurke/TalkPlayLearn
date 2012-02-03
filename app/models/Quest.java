@@ -21,6 +21,7 @@ public class Quest extends Model{
 	@OneToMany
 	public List<Quest> children;
 	
+	@OneToMany
 	public List<Objective> objectives;
 	
 	//public Map<Objective, Integer> objectiveProgress;

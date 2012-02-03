@@ -16,6 +16,7 @@ public class EngagedQuest extends Model{
 	@OneToOne
 	public Quest quest;
 	
+	// TODO: fix this. just need to store counter per objective
 	public Map<Long, Integer> objectiveProgress;
 	
 	public EngagedQuest(User _owner, Quest _quest) {
