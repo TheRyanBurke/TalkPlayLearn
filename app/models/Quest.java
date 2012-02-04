@@ -2,8 +2,8 @@ package models;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
@@ -21,7 +21,7 @@ public class Quest extends Model{
 	@OneToMany
 	public List<Quest> children;
 	
-	@OneToMany
+	@Embedded
 	public List<Objective> objectives;
 	
 	//public Map<Objective, Integer> objectiveProgress;
@@ -37,6 +37,10 @@ public class Quest extends Model{
 		prerequirements = new ArrayList<Quest>();
 		children = new ArrayList<Quest>();
 		objectives = new ArrayList<Objective>();
+	}
+	
+	public Quest() {
+		this("no title given", "no description given", REPEATABLE.ONCE);
 	}
 	
 		

@@ -24,23 +24,18 @@ public class Application extends Controller {
     	}
     	
     	if(User.findAll().isEmpty()){
-    		User newuser = new User();
-    		newuser.displayname="Ryan Burke";
-    		newuser.username="theryanburke";
+    		User newuser = new User("Ryan Burke", "theryanburke");
     		newuser.save();
     	}
     	
     	List<User> users = User.findAll();
         
-    	if(Objective.findAll().isEmpty()) {
-    		Objective obj = new Objective("Go to google.com", 1);
-    		obj.save();
-    	}
-    
+    	
+		Objective obj = new Objective("Go to google.com", 1);
     	
     	if(Quest.findAll().isEmpty()) {
     		Quest quest = new Quest("first quest", "this is your first quest", REPEATABLE.UNLIMITED);
-    		quest.objectives.add((Objective) Objective.findAll().get(0));
+    		quest.objectives.add(obj);
     		quest.save();
     	}
     	
