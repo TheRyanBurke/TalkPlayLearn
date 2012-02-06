@@ -1,11 +1,14 @@
 ${_quest.title}
+#{if _user?.eligibleForQuest(_quest)}
+ - <a href="@{beginQuest()}/${_user.id}/${_quest.id}">Start Quest</a>
+#{/if}
 <br />
 ${_quest.description}
 <br />
 <ol>
+#{set counter:0 /}
 #{list items:_quest.objectives, as:'objective'}
-<li>
-#{objective objective:objective _progressMap.get(objective.id):completions /}
-</li>
+#{objective objective:objective, completions:_progressArray?.getAt(counter) /}
+#{set counter:counter+1 /}
 #{/list}
 </ol>

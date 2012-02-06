@@ -6,7 +6,7 @@
 GET     /                                       Application.index
 
 # Begin quest
-GET		/Application/BeginQuest/{userid}/{questid}/?	Application.beginQuest
+GET		/application/beginquest/{userid}/{questid}/?	Application.beginQuest
 
 # Ignore favicon requests
 GET     /favicon.ico                            404

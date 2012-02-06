@@ -31,17 +31,24 @@ public class Application extends Controller {
     	List<User> users = User.findAll();
         
     	
-		Objective obj = new Objective("Go to google.com", 1);
-    	
+		
+		//Quest.<Quest>findAll().get(0).delete();
+		
     	if(Quest.findAll().isEmpty()) {
     		Quest quest = new Quest("first quest", "this is your first quest", REPEATABLE.UNLIMITED);
-    		quest.objectives.add(obj);
     		quest.save();
+    		Logger.info("created a new quest");
+    		
+    		Objective obj = new Objective("Go to google.com", 1, quest);
+    		obj.save();
+    		Logger.info("added obj to quest");
+    	} else {
+    		Logger.info("objs: " + Quest.<Quest>findAll().get(0).objectives.toString());
     	}
     	
     	List<Quest> quests = Quest.findAll();
     	
-    	
+    	Logger.info("objs before index: " + quests.get(0).objectives.toString());
     	
     	render(users, quests);
     }
@@ -49,8 +56,9 @@ public class Application extends Controller {
     public static void beginQuest(String userid, String questid) {
     	User current = getCurrentUser();
     	if(current != null && current.id.equals(Long.parseLong(userid))) {
-	    	Quest q = Quest.findById(questid);
+	    	Quest q = Quest.findById(Long.parseLong(questid));
 	    	if(q != null) {
+	    		Logger.info("quest title: " + q.title + " objs: " + q.objectives.toString());
 	    		EngagedQuest eq = new EngagedQuest(current, q);
 	    		eq.save();
 	        	//renderJSON("{\"success\":\"success\"}");

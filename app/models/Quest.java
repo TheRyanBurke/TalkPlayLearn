@@ -21,10 +21,8 @@ public class Quest extends Model{
 	@OneToMany
 	public List<Quest> children;
 	
-	@Embedded
+	@OneToMany(mappedBy="qowner")
 	public List<Objective> objectives;
-	
-	//public Map<Objective, Integer> objectiveProgress;
 	
 	public enum REPEATABLE {
 		ONCE, DAILY, UNLIMITED

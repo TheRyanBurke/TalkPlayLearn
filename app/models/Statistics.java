@@ -1,17 +1,11 @@
 package models;
 
-import javax.persistence.Entity;
-import javax.persistence.OneToOne;
+import javax.persistence.Embeddable;
 
-import play.db.jpa.Model;
-
-@Entity
-public class Statistics extends Model {
+@Embeddable
+public class Statistics{
 	
 	public int creativity, enthusiasm, productivity, socialness, gamer, academic;
-	
-	@OneToOne
-	public User owner;
 	
 	public Statistics() {
 		creativity = 0;
