@@ -60,6 +60,19 @@ public class Application extends Controller {
     	index();
     }
     
+    /**
+     * 
+     * @param engagedQuestId
+     * @param objectiveIndex - the index of the objective in the EngagedQuest.objectiveProgress[]
+     */
+    public static void uptickObjectiveCompletionCount(String engagedQuestId, String objectiveIndex) {
+    	Logger.info("hit uptick: " + engagedQuestId + ", "  + objectiveIndex);
+    }
+    
+    public static void downtickObjectiveCompletionCount(String engagedQuestId, String objectiveId) {
+    	
+    }
+    
     public static void login(String userid) {
     	session.put(CURRENT_USER, userid);
     	index();

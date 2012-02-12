@@ -1,4 +1,12 @@
-<li>${_objective.description} - 
+<li>${_objective.description}&nbsp;&#45;&nbsp;
 #{if _completions}${_completions}#{/if}
 #{else}0#{/else}
-/${_objective.requiredCompletions}</li>
+/${_objective.requiredCompletions}
+
+#{if _completions}
+	#{if _completions < _objective.requiredCompletions}
+	&nbsp;&#45;&nbsp;<a href="@{Application.uptickObjectiveCompletionCount()}/${_engagedQuestId}/${_counter}">&#43;</a>&#47;
+	<a href="@{Application.downtickObjectiveCompletionCount()}/${_engagedQuestId}/${_counter}">&#45;</a>
+	#{/if}
+#{/if}
+</li>

@@ -8,7 +8,7 @@ ${_quest.description}
 <ol>
 #{set counter:0 /}
 #{list items:_quest.objectives, as:'objective'}
-#{objective objective:objective, completions:_progressArray?.getAt(counter) /}
+#{objective objective:objective, completions:_progressArray?.getAt(counter), counter:counter /}
 #{set counter:counter+1 /}
 #{/list}
 </ol>
