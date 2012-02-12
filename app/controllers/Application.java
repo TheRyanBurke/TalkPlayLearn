@@ -29,10 +29,6 @@ public class Application extends Controller {
     	}
     	
     	List<User> users = User.findAll();
-        
-    	
-		
-		//Quest.<Quest>findAll().get(0).delete();
 		
     	if(Quest.findAll().isEmpty()) {
     		Quest quest = new Quest("first quest", "this is your first quest", REPEATABLE.UNLIMITED);
@@ -48,8 +44,6 @@ public class Application extends Controller {
     	
     	List<Quest> quests = Quest.findAll();
     	
-    	Logger.info("objs before index: " + quests.get(0).objectives.toString());
-    	
     	render(users, quests);
     }
     
@@ -61,10 +55,8 @@ public class Application extends Controller {
 	    		Logger.info("quest title: " + q.title + " objs: " + q.objectives.toString());
 	    		EngagedQuest eq = new EngagedQuest(current, q);
 	    		eq.save();
-	        	//renderJSON("{\"success\":\"success\"}");
 	    	}
     	}
-    	//renderJSON("{\"failure\":\"failure\"}");
     	index();
     }
     
