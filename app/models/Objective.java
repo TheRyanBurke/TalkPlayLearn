@@ -13,13 +13,14 @@ public class Objective extends Model {
 	
 	public String description;
 	
-	
+	public int xp;
 	public int requiredCompletions;
 	
-	public Objective(String _description, int _requiredCompletions, Quest q) {
+	public Objective(String _description, int _requiredCompletions, Quest q, int _xp) {
 		description = _description;
 		requiredCompletions = _requiredCompletions;
 		qowner = q;
+		xp = _xp;
 	}
 //	
 //	public Objective() {

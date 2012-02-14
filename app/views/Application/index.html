@@ -8,11 +8,14 @@
 
 <br /><br />
 
-#{questList quests:quests, user:currentUser /}
-
-<br /><br />
-
 #{if currentUser && engagedQuests}
 <h3>${currentUser.displayname}'s quests</h3>
 #{myQuests engagedQuests:engagedQuests /}
 #{/if}
+
+<br /><br />
+
+*{#{questList quests:quests, user:currentUser /}}*
+
+
+

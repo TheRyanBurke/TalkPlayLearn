@@ -1,18 +1,23 @@
 package models;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.persistence.Embeddable;
 
 @Embeddable
 public class Statistics{
 	
-	public int creativity, enthusiasm, productivity, socialness, gamer, academic;
+	public enum STATS {
+		CREATIVITY, ENTHUSIASM, PRODUCTIVITY, SOCIALNESS, GAMER, ACADEMIC
+	}
+	
+	Map<STATS, Integer> stats;
 	
 	public Statistics() {
-		creativity = 0;
-		enthusiasm = 0;
-		productivity = 0;
-		socialness = 0;
-		gamer = 0;
-		academic = 0;
+		stats = new HashMap<STATS, Integer>();
+		for(STATS s : STATS.values()) {
+			stats.put(s, 0);
+		}
 	}
 }

@@ -42,9 +42,28 @@ public class EngagedQuest extends Model{
 	public void incrementObjectiveProgress(int objectiveIndex) {
 		if(!completed) {
 			objectiveProgress[objectiveIndex]++;
+			this.save();
+			if(objectiveProgress[objectiveIndex] == quest.objectives.get(objectiveIndex).requiredCompletions) {
+				owner.gainXP(quest.objectives.get(objectiveIndex).xp);
+				owner.save();
+			}
 			if(allObjectivesCompleted())
 				completeQuest();
 		}
+	}
+	
+	public void decrementObjectiveProgress(int objectiveIndex) {
+		completed = false;
+		completedOn = null;
+		
+		if(objectiveProgress[objectiveIndex] == quest.objectives.get(objectiveIndex).requiredCompletions) {
+			owner.loseXP(quest.objectives.get(objectiveIndex).xp);
+			owner.save();
+		}
+		if(--objectiveProgress[objectiveIndex] < 0) {
+			objectiveProgress[objectiveIndex] = 0;
+		}
+		this.save();
 	}
 	
 	public boolean allObjectivesCompleted() {
@@ -59,7 +78,11 @@ public class EngagedQuest extends Model{
 	public void completeQuest() {
 		completed = true;
 		completedOn = new GregorianCalendar().getTime();
+		this.save();
 	}
 	
+	public String toString() {
+		return "I'm an EngagedQuest object!";
+	}
 	
 }

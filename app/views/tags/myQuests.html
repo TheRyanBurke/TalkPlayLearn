@@ -3,9 +3,7 @@
 #{if _engagedQuests}
 
 #{list items:_engagedQuests, as:'engagedQuest'}
-#{quest quest:engagedQuest.quest, progressArray:engagedQuest.objectiveProgress /}
-
-
+#{quest quest:engagedQuest.quest, engagedQuest:engagedQuest /}
 #{/list}
 
 

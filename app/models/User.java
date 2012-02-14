@@ -20,6 +20,9 @@ public class User extends Model{
 	public List<EngagedQuest> quests;
 	
 	public int xp;
+	public int level;
+	public int xpToLevel = 100;
+	public final int levelXPIncrease = 50;
 	
 	/** 
 	 * Similar to a character sheet in an RPG
@@ -36,6 +39,8 @@ public class User extends Model{
 		username = _username;
 		quests = new ArrayList<EngagedQuest>();
 		stats = new Statistics();
+		xp = 0;
+		level = 1;
 	}
 	
 	public User() {
@@ -62,5 +67,43 @@ public class User extends Model{
 			} 
 		}
 		return true;
+	}
+	
+	public void gainXP(int addXP) {
+		xp += addXP;
+		this.save();
+		checkLevelUp();
+	}
+	
+	public void loseXP(int loseXP) {
+		xp -= loseXP;
+		this.save();
+		if(xp < 0) {
+			levelDown();
+		}
+	}
+	
+	public void checkLevelUp() {
+		if(xp >= xpToLevel)
+			levelUp();
+	}
+	
+	public void levelUp() {
+		level++;
+		xp = xp - xpToLevel;
+		xpToLevel += levelXPIncrease;
+		this.save();
+	}
+	
+	public void levelDown() {
+		level--;
+		xpToLevel -= levelXPIncrease;
+		xp = xpToLevel - Math.abs(xp);
+		this.save();
+	}
+	
+	public void addStat(Statistics.STATS s) {
+		stats.stats.put(s, stats.stats.get(s)+1);
+		this.save();
 	}
 }

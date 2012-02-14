@@ -35,7 +35,7 @@ public class Application extends Controller {
     		quest.save();
     		Logger.info("created a new quest");
     		
-    		Objective obj = new Objective("Go to google.com", 1, quest);
+    		Objective obj = new Objective("Go to google.com", 1, quest, 10);
     		obj.save();
     		Logger.info("added obj to quest");
     	} else {
@@ -65,12 +65,24 @@ public class Application extends Controller {
      * @param engagedQuestId
      * @param objectiveIndex - the index of the objective in the EngagedQuest.objectiveProgress[]
      */
-    public static void uptickObjectiveCompletionCount(String engagedQuestId, String objectiveIndex) {
+    public static void uptickObjectiveCompletionCount(long engagedQuestId, int objectiveIndex) {
     	Logger.info("hit uptick: " + engagedQuestId + ", "  + objectiveIndex);
+    	
+    	EngagedQuest eq = EngagedQuest.findById(engagedQuestId);
+    	if(eq != null) {
+    		eq.incrementObjectiveProgress(objectiveIndex);
+    	}
+    	
+    	index();
     }
     
-    public static void downtickObjectiveCompletionCount(String engagedQuestId, String objectiveId) {
+    public static void downtickObjectiveCompletionCount(long engagedQuestId, int objectiveIndex) {
+    	EngagedQuest eq = EngagedQuest.findById(engagedQuestId);
+    	if(eq != null) {
+    		eq.decrementObjectiveProgress(objectiveIndex);
+    	}
     	
+    	index();
     }
     
     public static void login(String userid) {
