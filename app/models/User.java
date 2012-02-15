@@ -21,8 +21,8 @@ public class User extends Model{
 	
 	public int xp;
 	public int level;
-	public int xpToLevel = 100;
-	public final int levelXPIncrease = 50;
+	public int xpToLevel;
+	public int levelXPIncrease;
 	
 	/** 
 	 * Similar to a character sheet in an RPG
@@ -41,6 +41,8 @@ public class User extends Model{
 		stats = new Statistics();
 		xp = 0;
 		level = 1;
+		xpToLevel = 100;
+		levelXPIncrease = 50;
 	}
 	
 	public User() {
@@ -72,12 +74,14 @@ public class User extends Model{
 	public void gainXP(int addXP) {
 		xp += addXP;
 		this.save();
+		Logger.info("Gained XP: " + addXP);
 		checkLevelUp();
 	}
 	
 	public void loseXP(int loseXP) {
 		xp -= loseXP;
 		this.save();
+		Logger.info("Lost XP: " + loseXP);
 		if(xp < 0) {
 			levelDown();
 		}
@@ -93,6 +97,7 @@ public class User extends Model{
 		xp = xp - xpToLevel;
 		xpToLevel += levelXPIncrease;
 		this.save();
+		Logger.info("Leveled up!");
 	}
 	
 	public void levelDown() {
@@ -102,8 +107,8 @@ public class User extends Model{
 		this.save();
 	}
 	
-	public void addStat(Statistics.STATS s) {
-		stats.stats.put(s, stats.stats.get(s)+1);
+	public void addStat(Statistics.STATS stat) {
+		stats.addStat(stat);
 		this.save();
 	}
 }

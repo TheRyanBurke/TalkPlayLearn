@@ -1,0 +1,6 @@
+*{add username/displayname/stats}*
+
+#{if _user.quests}
+<h3>${_user.displayname}'s quests</h3>
+#{myQuests engagedQuests:_user.quests /}
+#{/if}

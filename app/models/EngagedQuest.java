@@ -44,8 +44,8 @@ public class EngagedQuest extends Model{
 			objectiveProgress[objectiveIndex]++;
 			this.save();
 			if(objectiveProgress[objectiveIndex] == quest.objectives.get(objectiveIndex).requiredCompletions) {
+				Logger.info("Objective complete!");
 				owner.gainXP(quest.objectives.get(objectiveIndex).xp);
-				owner.save();
 			}
 			if(allObjectivesCompleted())
 				completeQuest();
@@ -72,6 +72,7 @@ public class EngagedQuest extends Model{
 				return false;
 			}
 		}
+		Logger.info("All objectives complete!");
 		return true;
 	}
 	
@@ -79,6 +80,7 @@ public class EngagedQuest extends Model{
 		completed = true;
 		completedOn = new GregorianCalendar().getTime();
 		this.save();
+		Logger.info("Quest completed!");
 	}
 	
 	public String toString() {
