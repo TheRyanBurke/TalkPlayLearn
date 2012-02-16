@@ -18,25 +18,25 @@ public class Statistics{
 		creativity = enthusiasm = productivity = socialness = gamer = academic = 0;
 	}
 	
-	public void addStat(STATS stat) {
+	public void addStat(STATS stat, int val) {
 		switch(stat){
 			case CREATIVITY:
-				creativity++;
+				creativity += val;
 				break;
 			case ENTHUSIASM:
-				enthusiasm++;
+				enthusiasm += val;
 				break;
 			case PRODUCTIVITY:
-				productivity++;
+				productivity += val;
 				break;
 			case SOCIALNESS:
-				socialness++;
+				socialness += val;
 				break;
 			case GAMER:
-				gamer++;
+				gamer += val;
 				break;
 			case ACADEMIC:
-				academic++;
+				academic += val;
 				break;
 			default: break;
 		}	

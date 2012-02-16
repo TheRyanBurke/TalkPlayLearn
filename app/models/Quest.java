@@ -24,6 +24,9 @@ public class Quest extends Model{
 	@OneToMany(mappedBy="qowner")
 	public List<Objective> objectives;
 	
+	@Embedded
+	public Statistics rewards;
+	
 	public enum REPEATABLE {
 		ONCE, DAILY, UNLIMITED
 	}
@@ -35,10 +38,21 @@ public class Quest extends Model{
 		prerequirements = new ArrayList<Quest>();
 		children = new ArrayList<Quest>();
 		objectives = new ArrayList<Objective>();
+		rewards = new Statistics();
 	}
 	
 	public Quest() {
 		this("no title given", "no description given", REPEATABLE.ONCE);
+	}
+	
+	public int totalXP() {
+		int total = 0;
+		
+		for(Objective o : objectives) {
+			total += o.xp;
+		}
+		
+		return total;
 	}
 	
 		

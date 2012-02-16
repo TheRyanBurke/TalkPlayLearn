@@ -1,10 +1,11 @@
 <span class="toggleQuest">${_quest.title} (total xp)</span>
 #{if _user?.eligibleForQuest(_quest)}
- - <a href="@{beginQuest()}/${_user.id}/${_quest.id}">Start Quest</a>
+ - <a href="@{beginQuest()}/${_user.id}/${_quest.id}"><button class="btn btn-success btn-small">Start</button></a>
 #{/if}
 <br />
 <div class="questBody collapse">
-${_quest.description}
+${_quest.description} <br />
+*{add reward stats}*
 <br />
 <ol>
 #{set counter:0 /}

@@ -32,11 +32,14 @@ public class Application extends Controller {
 		
     	if(Quest.findAll().isEmpty()) {
     		Quest quest = new Quest("first quest", "this is your first quest", REPEATABLE.UNLIMITED);
+    		quest.rewards.addStat(Statistics.STATS.PRODUCTIVITY, 1);
     		quest.save();
     		Logger.info("created a new quest");
     		
-    		Objective obj = new Objective("Go to google.com", 1, quest, 10);
+    		Objective obj = new Objective("Go to google.com three times", 3, quest, 30, false);
     		obj.save();
+    		Objective obj2 = new Objective("Bonus! Do it once with your eyes closed!", 1, quest, 5, true);
+    		obj2.save();
     		Logger.info("added obj to quest");
     	} else {
     		Logger.info("objs: " + Quest.<Quest>findAll().get(0).objectives.toString());

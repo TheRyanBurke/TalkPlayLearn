@@ -68,8 +68,10 @@ public class EngagedQuest extends Model{
 	
 	public boolean allObjectivesCompleted() {
 		for(int i = 0; i < objectiveProgress.length; i++) {
-			if(objectiveProgress[i] != quest.objectives.get(i).requiredCompletions) {
-				return false;
+			if(!quest.objectives.get(i).bonus) {
+				if(objectiveProgress[i] != quest.objectives.get(i).requiredCompletions) {
+					return false;
+				}
 			}
 		}
 		Logger.info("All objectives complete!");

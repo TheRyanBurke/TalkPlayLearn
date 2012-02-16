@@ -108,7 +108,7 @@ public class User extends Model{
 	}
 	
 	public void addStat(Statistics.STATS stat) {
-		stats.addStat(stat);
+		stats.addStat(stat, 1);
 		this.save();
 	}
 }

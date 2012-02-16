@@ -16,12 +16,16 @@ public class Objective extends Model {
 	public int xp;
 	public int requiredCompletions;
 	
-	public Objective(String _description, int _requiredCompletions, Quest q, int _xp) {
+	public boolean bonus;
+	
+	public Objective(String _description, int _requiredCompletions, Quest q, int _xp, boolean _bonus) {
 		description = _description;
 		requiredCompletions = _requiredCompletions;
 		qowner = q;
 		xp = _xp;
+		bonus = _bonus;
 	}
+	
 //	
 //	public Objective() {
 //		this("no description given", 0);
