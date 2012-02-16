@@ -1,11 +1,32 @@
-You are 
-#{if currentUser}
+<div class="navbar">
+  <div class="navbar-inner">
+    <div class="container">
+      	<a class="brand" href="#">
+  			TalkPlayLearn
+		</a>
+		<ul class="nav">
+  <li class="active">
+    <a href="#">Home</a>
+  </li>
+  <li><a href="#">Users</a></li>
+  <li><a href="#">Quests</a></li>
+  </ul>
+  <ul class="nav pull-right">
+#{if currentUser}  
+  <li>
+  <a href="#">
+  <span style="color:white;">
 	${currentUser.displayname}
-	<br /> <a href="@{logout()}">Logout</a> 
+	</span>
+	</a>
+</li>
+#{/if}
+<li>
+#{if currentUser}
+
+	<a href="@{logout()}">Logout</a> 
 #{/if}
 #{else}
-	not logged in.<br />
-	Login as:
 	#{form @login() }
 	
 	<select name="userid">
@@ -13,6 +34,13 @@ You are
 		<option value="${user.id}">${user.displayname}</option>
 		#{/list}
 	</select> 
-	<button type="submit">Login</button>
+	<button class="btn btn-info" type="submit">Login</button>
 	#{/form}
 #{/else}
+  </li>
+</ul>
+		
+    </div>
+  </div>
+</div>
+
