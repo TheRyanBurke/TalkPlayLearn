@@ -1,6 +1,65 @@
-*{add username/displayname/stats}*
+<div class="row">
+	<div class="span6">
+		<h3>${_user.displayname}</h3>
+	</div>
+</div>
+<div class="row">
+	<div class="span6">
+		Level ${_user.level} [title]
+		<span style="float:right;">${_user.xp}/${_user.xpToLevel}</span>
+		<div class="progress">
+			<div class="bar" style="width: ${100*_user.xp/_user.xpToLevel}%;"></div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="span2">
+	<table class="table table-striped table-bordered table-condensed statsheet">
+		<tbody>
+			<tr>
+				<td>Socialness</td>
+				<td class="statsheet-value">${_user.stats.socialness}</td>
+			</tr>
+			<tr>
+				<td>Gamer</td>
+				<td class="statsheet-value">${_user.stats.gamer}</td>
+			</tr>
+			<tr>
+				<td>Academic</td>
+				<td class="statsheet-value">${_user.stats.academic}</td>
+			</tr>
+		</tbody>
+	</table>
+	</div>
+	
+	<div class="span2">
+		<img class="profilePic" src="@{'/public/img/profile.png'}"/>
+	</div>
+	
+	<div class="span2">
+		<table class="table table-striped table-bordered table-condensed statsheet">
+		<tbody>
+			<tr>
+				<td>Creativity</td>
+				<td class="statsheet-value">${_user.stats.creativity}</td>
+			</tr>
+			<tr>
+				<td>Enthusiasm</td>
+				<td class="statsheet-value">${_user.stats.enthusiasm}</td>
+			</tr>
+			<tr>
+				<td>Productivity</td>
+				<td class="statsheet-value">${_user.stats.productivity}</td>
+			</tr>
+		</tbody>
+	</table>
+	</div>
 
-#{if _user.quests}
-<h3>${_user.displayname}'s quests</h3>
-#{myQuests engagedQuests:_user.quests /}
-#{/if}
+</div>
+<div class="row">
+	<div class="span4">
+		#{if _user.quests}
+		#{myQuests engagedQuests:_user.quests /}
+		#{/if}
+	</div>
+</div>

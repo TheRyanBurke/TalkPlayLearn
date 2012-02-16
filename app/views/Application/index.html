@@ -1,20 +1,23 @@
 #{extends 'main.html' /}
 
-#{set title:'Home' /}
-
 #{include 'login.html' /}
 
-#{userList users:users /}
-
-<br /><br />
-
-#{if currentUser}
-#{user user:currentUser /}
-#{/if}
-
-<br /><br />
-
-#{questList quests:quests, user:currentUser /}
-
+<div class="container-fluid">
+	<div class="row-fluid">
+		<div class="span10">
+			#{userList users:users /}
+			
+			<br /><br />
+			
+			#{if currentUser}
+			#{user user:currentUser /}
+			#{/if}
+			
+			<br /><br />
+			
+			#{questList quests:quests, user:currentUser /}
+		</div>
+	</div>
+</div>
 
 

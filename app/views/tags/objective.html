@@ -1,18 +1,29 @@
-
 <li class="objective #{if _engagedQuest?.objectiveProgress?.getAt(_counter) < _objective.requiredCompletions}incompleteObjective#{/if}#{else}completeObjective#{/else}">
-${_objective.description}&nbsp;&#45;&nbsp;
+${_objective.description}
+(${_objective.xp} XP)
+
 #{if _engagedQuest}
-${_engagedQuest.objectiveProgress.getAt(_counter)}/${_objective.requiredCompletions}
+	<span style="float:right;">
+		${_engagedQuest.objectiveProgress.getAt(_counter)}/${_objective.requiredCompletions}
+		&nbsp;
+		#{if _engagedQuest.objectiveProgress.getAt(_counter) < _objective.requiredCompletions}
+			<a href="@{Application.uptickObjectiveCompletionCount()}/${_engagedQuest.id}/${_counter}">
+				<i class="icon-plus-sign"></i>
+			</a>
+		#{/if}
+		#{if _engagedQuest.objectiveProgress.getAt(_counter) > 0}
+			<a href="@{Application.downtickObjectiveCompletionCount()}/${_engagedQuest.id}/${_counter}">
+				<i class="icon-minus-sign"></i>
+			</a>
+		#{/if}
+	</span>
+	<div class="progress progress-info progress-striped">
+		<div class="bar" style="width: ${100*_engagedQuest.objectiveProgress.getAt(_counter)/_objective.requiredCompletions}%;"></div>
+	</div>
 #{/if}
 #{else}
 0/${_objective.requiredCompletions}
 #{/else}
-&nbsp;&#45;&nbsp;${_objective.xp}
-#{if _engagedQuest}
-	&nbsp;&#45;&nbsp;
-	#{if _engagedQuest.objectiveProgress.getAt(_counter) < _objective.requiredCompletions}
-	<a href="@{Application.uptickObjectiveCompletionCount()}/${_engagedQuest.id}/${_counter}">&#43;</a>&#47;
-	#{/if}
-	<a href="@{Application.downtickObjectiveCompletionCount()}/${_engagedQuest.id}/${_counter}">&#45;</a>
-#{/if}
+
+
 </li>
