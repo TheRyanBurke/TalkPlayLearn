@@ -1,0 +1,16 @@
+#{form @Application.awardPoint(), id:'form', enctype:'multipart/form-data' }
+I award:
+<select name="userId">
+#{list items:_users, as:'user'}
+	<option value="${user.id}">${user.displayname}</option>
+#{/list}
+</select>
++1
+<select name="stat">
+#{list items:models.Statistics.STATS.values(), as:'statType'}
+	<option value="${statType}">${(statType as String).toLowerCase().capFirst()}</option>
+#{/list}
+</select>
+for <input type="text" name="reason" />
+<button type="submit" class="btn btn-success">Award!</button>
+#{/form}

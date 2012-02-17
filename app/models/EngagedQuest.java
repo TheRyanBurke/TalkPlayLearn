@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
+import models.Statistics.STATS;
 import play.Logger;
 import play.db.jpa.Model;
 
@@ -45,20 +46,29 @@ public class EngagedQuest extends Model{
 			this.save();
 			if(objectiveProgress[objectiveIndex] == quest.objectives.get(objectiveIndex).requiredCompletions) {
 				Logger.info("Objective complete!");
-				owner.gainXP(quest.objectives.get(objectiveIndex).xp);
 			}
 			if(allObjectivesCompleted())
 				completeQuest();
+		} else if(quest.objectives.get(objectiveIndex).bonus) {
+			objectiveProgress[objectiveIndex]++;
+			this.save();
+			if(objectiveProgress[objectiveIndex] == quest.objectives.get(objectiveIndex).requiredCompletions) {
+				Logger.info("Post quest complete bonus Objective complete!");
+				owner.gainXP(quest.objectives.get(objectiveIndex).xp);
+			}
 		}
 	}
 	
 	public void decrementObjectiveProgress(int objectiveIndex) {
-		completed = false;
-		completedOn = null;
+//		completed = false;
+//		completedOn = null;
 		
 		if(objectiveProgress[objectiveIndex] == quest.objectives.get(objectiveIndex).requiredCompletions) {
-			owner.loseXP(quest.objectives.get(objectiveIndex).xp);
-			owner.save();
+			if(completed && !quest.objectives.get(objectiveIndex).bonus) {
+				uncompleteQuest();
+			} else if(completed && quest.objectives.get(objectiveIndex).bonus) {
+				owner.loseXP(quest.objectives.get(objectiveIndex).xp);
+			}
 		}
 		if(--objectiveProgress[objectiveIndex] < 0) {
 			objectiveProgress[objectiveIndex] = 0;
@@ -82,7 +92,26 @@ public class EngagedQuest extends Model{
 		completed = true;
 		completedOn = new GregorianCalendar().getTime();
 		this.save();
+		for(int i = 0; i < objectiveProgress.length; i++) {
+			if(objectiveProgress[i] >= quest.objectives.get(i).requiredCompletions)
+				owner.gainXP(quest.objectives.get(i).xp);
+		}
+		for(STATS s : STATS.values()) {
+			owner.addStat(s, quest.rewards.getStat(s));
+		}
 		Logger.info("Quest completed!");
+	}
+	
+	public void uncompleteQuest() {
+		completed = false;
+		completedOn = null;
+		for(STATS s : STATS.values()) {
+			owner.loseStat(s, quest.rewards.getStat(s));
+		}
+		for(int i = 0; i < objectiveProgress.length; i++) {
+			if(objectiveProgress[i] >= quest.objectives.get(i).requiredCompletions)
+				owner.loseXP(quest.objectives.get(i).xp);
+		}
 	}
 	
 	public String toString() {

@@ -1,9 +1,11 @@
 package models;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
@@ -24,6 +26,9 @@ public class User extends Model{
 	public int xpToLevel;
 	public int levelXPIncrease;
 	
+	@ElementCollection
+	public List<String> activityLog;
+	
 	/** 
 	 * Similar to a character sheet in an RPG
 	 * Other members can freely award stat points to others
@@ -43,6 +48,7 @@ public class User extends Model{
 		level = 1;
 		xpToLevel = 100;
 		levelXPIncrease = 50;
+		activityLog = new ArrayList<String>();
 	}
 	
 	public User() {
@@ -98,6 +104,7 @@ public class User extends Model{
 		xpToLevel += levelXPIncrease;
 		this.save();
 		Logger.info("Leveled up!");
+		addToLog("Level up! You are now level " + level);
 	}
 	
 	public void levelDown() {
@@ -108,7 +115,26 @@ public class User extends Model{
 	}
 	
 	public void addStat(Statistics.STATS stat) {
-		stats.addStat(stat, 1);
+		this.addStat(stat, 1);
+	}
+	
+	public void addStat(Statistics.STATS stat, int val) {
+		stats.addStat(stat, val);
+		this.save();
+	}
+	
+	public void loseStat(Statistics.STATS stat) {
+		this.loseStat(stat, 1);
+	}
+	
+	public void loseStat(Statistics.STATS stat, int val) {
+		stats.loseStat(stat, val);
+		this.save();
+	}
+	
+	public void addToLog(String activity) {
+		Date now = new GregorianCalendar().getTime();
+		activityLog.add(now.toString() + " -- " + activity);
 		this.save();
 	}
 }

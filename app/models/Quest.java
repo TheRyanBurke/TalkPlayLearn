@@ -49,10 +49,21 @@ public class Quest extends Model{
 		int total = 0;
 		
 		for(Objective o : objectives) {
-			total += o.xp;
+			if(!o.bonus)
+				total += o.xp;
 		}
 		
 		return total;
+	}
+	
+	public int totalXPWithBonus() {
+		int total = 0;
+		
+		for(Objective o : objectives) {
+			total += o.xp;
+		}
+		
+		return total;		
 	}
 	
 		

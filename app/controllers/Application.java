@@ -33,6 +33,7 @@ public class Application extends Controller {
     	if(Quest.findAll().isEmpty()) {
     		Quest quest = new Quest("first quest", "this is your first quest", REPEATABLE.UNLIMITED);
     		quest.rewards.addStat(Statistics.STATS.PRODUCTIVITY, 1);
+    		quest.rewards.addStat(Statistics.STATS.SOCIALNESS, 1);
     		quest.save();
     		Logger.info("created a new quest");
     		
@@ -85,6 +86,17 @@ public class Application extends Controller {
     		eq.decrementObjectiveProgress(objectiveIndex);
     	}
     	
+    	index();
+    }
+    
+    public static void awardPoint(long userId, Statistics.STATS stat, String reason) {
+    	Logger.info("awarding point to " + userId + " +1 " + stat + " for " + reason);
+    	User u = User.findById(userId);
+    	if(u != null) {
+    		Logger.info("user not null");
+    		u.addStat(stat);
+    		u.addToLog(getCurrentUser().displayname + " awarded you +1 " + stat + " for " + reason);
+    	}
     	index();
     }
     
