@@ -1,15 +1,12 @@
 package models;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
-
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import java.util.List;
 
 import models.Statistics.STATS;
 import play.Logger;
-import play.db.jpa.Model;
 
 public class EngagedQuest{
 	
@@ -20,55 +17,65 @@ public class EngagedQuest{
 	public boolean completed;
 	public Date completedOn;
 	
-	public EngagedQuest(Quest _quest) {
-		quest = _quest;
+	public Quest getQuest() {
+		return Quest.findById(questid);
+	}
+	
+	public EngagedQuest(long _questid) {
+		questid = _questid;
 		completed = false;
-		objectiveProgress = new int[quest.objectives.size()];
-		for(int i = 0; i < objectiveProgress.length; i++) {
-			objectiveProgress[i] = 0;
+		objectiveProgress = new ArrayList<Integer>();
+		int count = getQuest().objectives.size();
+		while(count > 0) {
+			objectiveProgress.add(0);
+			count--;
 		}
 	}
 	
+	private void modifyObjectiveProgress(int index, int val) {
+		objectiveProgress.set(index, objectiveProgress.get(index) + val);
+	}
+	
 	public void incrementObjectiveProgress(int objectiveIndex) {
+		Quest q = getQuest();
 		if(!completed) {
-			objectiveProgress[objectiveIndex]++;
-			this.save();
-			if(objectiveProgress[objectiveIndex] == quest.objectives.get(objectiveIndex).requiredCompletions) {
+			modifyObjectiveProgress(objectiveIndex, 1);
+			
+			if(objectiveProgress.get(objectiveIndex) == q.objectives.get(objectiveIndex).requiredCompletions) {
 				Logger.info("Objective complete!");
 			}
 			if(allObjectivesCompleted())
 				completeQuest();
-		} else if(quest.objectives.get(objectiveIndex).bonus) {
-			objectiveProgress[objectiveIndex]++;
-			this.save();
-			if(objectiveProgress[objectiveIndex] == quest.objectives.get(objectiveIndex).requiredCompletions) {
+		} else if(q.objectives.get(objectiveIndex).bonus) {
+			modifyObjectiveProgress(objectiveIndex, 1);
+			if(objectiveProgress.get(objectiveIndex) == q.objectives.get(objectiveIndex).requiredCompletions) {
 				Logger.info("Post quest complete bonus Objective complete!");
-				owner.gainXP(quest.objectives.get(objectiveIndex).xp);
+				//owner.gainXP(q.objectives.get(objectiveIndex).xp);
 			}
 		}
 	}
 	
 	public void decrementObjectiveProgress(int objectiveIndex) {
-//		completed = false;
-//		completedOn = null;
-		
-		if(objectiveProgress[objectiveIndex] == quest.objectives.get(objectiveIndex).requiredCompletions) {
+		Quest quest = getQuest();
+		if(objectiveProgress.get(objectiveIndex) == quest.objectives.get(objectiveIndex).requiredCompletions) {
 			if(completed && !quest.objectives.get(objectiveIndex).bonus) {
 				uncompleteQuest();
 			} else if(completed && quest.objectives.get(objectiveIndex).bonus) {
-				owner.loseXP(quest.objectives.get(objectiveIndex).xp);
+				//owner.loseXP(quest.objectives.get(objectiveIndex).xp);
 			}
 		}
-		if(--objectiveProgress[objectiveIndex] < 0) {
-			objectiveProgress[objectiveIndex] = 0;
+		modifyObjectiveProgress(objectiveIndex, -1);
+		if(objectiveProgress.get(objectiveIndex) < 0) {
+			objectiveProgress.set(objectiveIndex, 0);
 		}
-		this.save();
+		
 	}
 	
 	public boolean allObjectivesCompleted() {
-		for(int i = 0; i < objectiveProgress.length; i++) {
+		Quest quest = getQuest();
+		for(Integer i : objectiveProgress) {
 			if(!quest.objectives.get(i).bonus) {
-				if(objectiveProgress[i] != quest.objectives.get(i).requiredCompletions) {
+				if(objectiveProgress.get(i) != quest.objectives.get(i).requiredCompletions) {
 					return false;
 				}
 			}
@@ -80,27 +87,12 @@ public class EngagedQuest{
 	public void completeQuest() {
 		completed = true;
 		completedOn = new GregorianCalendar().getTime();
-		this.save();
-		for(int i = 0; i < objectiveProgress.length; i++) {
-			if(objectiveProgress[i] >= quest.objectives.get(i).requiredCompletions)
-				owner.gainXP(quest.objectives.get(i).xp);
-		}
-		for(STATS s : STATS.values()) {
-			owner.addStat(s, quest.rewards.getStat(s));
-		}
 		Logger.info("Quest completed!");
 	}
 	
 	public void uncompleteQuest() {
 		completed = false;
 		completedOn = null;
-		for(STATS s : STATS.values()) {
-			owner.loseStat(s, quest.rewards.getStat(s));
-		}
-		for(int i = 0; i < objectiveProgress.length; i++) {
-			if(objectiveProgress[i] >= quest.objectives.get(i).requiredCompletions)
-				owner.loseXP(quest.objectives.get(i).xp);
-		}
 	}
 	
 	public String toString() {

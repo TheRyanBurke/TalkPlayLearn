@@ -55,8 +55,9 @@ public class Application extends Controller {
 	    	Quest q = Quest.findById(Long.parseLong(questid));
 	    	if(q != null) {
 	    		Logger.info("quest title: " + q.title + " objs: " + q.objectives.toString());
-	    		EngagedQuest eq = new EngagedQuest(current, q);
-	    		eq.save();
+	    		EngagedQuest eq = new EngagedQuest(q.id);
+	    		current.quests.add(eq);
+	    		current.save();
 	    	}
     	}
     	index();
@@ -67,21 +68,25 @@ public class Application extends Controller {
      * @param engagedQuestId
      * @param objectiveIndex - the index of the objective in the EngagedQuest.objectiveProgress[]
      */
-    public static void uptickObjectiveCompletionCount(long engagedQuestId, int objectiveIndex) {
+    public static void uptickObjectiveCompletionCount(int engagedQuestId, int objectiveIndex) {
     	Logger.info("hit uptick: " + engagedQuestId + ", "  + objectiveIndex);
     	
-    	EngagedQuest eq = EngagedQuest.findById(engagedQuestId);
+    	User u = getCurrentUser();
+    	EngagedQuest eq = u.quests.get(engagedQuestId);
     	if(eq != null) {
     		eq.incrementObjectiveProgress(objectiveIndex);
+    		u.save();
     	}
     	
     	index();
     }
     
-    public static void downtickObjectiveCompletionCount(long engagedQuestId, int objectiveIndex) {
-    	EngagedQuest eq = EngagedQuest.findById(engagedQuestId);
+    public static void downtickObjectiveCompletionCount(int engagedQuestId, int objectiveIndex) {
+    	User u = getCurrentUser();
+    	EngagedQuest eq = u.quests.get(engagedQuestId);
     	if(eq != null) {
     		eq.decrementObjectiveProgress(objectiveIndex);
+    		u.save();
     	}
     	
     	index();

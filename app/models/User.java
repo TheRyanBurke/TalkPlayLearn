@@ -1,6 +1,9 @@
 package models;
 
+import utils.Constants;
+
 import java.util.ArrayList;
+
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -18,13 +21,11 @@ public class User extends Model{
 	public String displayname;
 	public String username;
 	
-	@OneToMany(mappedBy="owner")
+	@ElementCollection
 	public List<EngagedQuest> quests;
 	
 	public int xp;
 	public int level;
-	public int xpToLevel;
-	public int levelXPIncrease;
 	
 	@ElementCollection
 	public List<String> activityLog;
@@ -46,8 +47,6 @@ public class User extends Model{
 		stats = new Statistics();
 		xp = 0;
 		level = 1;
-		xpToLevel = 100;
-		levelXPIncrease = 50;
 		activityLog = new ArrayList<String>();
 	}
 	
@@ -57,7 +56,7 @@ public class User extends Model{
 	
 	public boolean eligibleForQuest(Quest search) {
 		for(EngagedQuest eq : quests) {
-			if(eq.quest.equals(search)) {
+			if(eq.getQuest().equals(search)) {
 				//found a user tracked quest that matches
 				if(eq.completed) {
 					if(search.repeatability == Quest.REPEATABLE.DAILY) {
@@ -136,5 +135,9 @@ public class User extends Model{
 		Date now = new GregorianCalendar().getTime();
 		activityLog.add(now.toString() + " -- " + activity);
 		this.save();
+	}
+	
+	public int currentLevelXPCap() {
+		return Constants.INITIALXPCAP + (level-1) * Constants.XPCAPINCREASE;
 	}
 }
