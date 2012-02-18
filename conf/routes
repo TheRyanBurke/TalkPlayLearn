@@ -10,6 +10,10 @@ GET		/application/beginquest/{userid}/{questid}/?	Application.beginQuest
 GET		/application/uptickobjectivecompletioncount/{engagedQuestId}/{objectiveIndex}/?		Application.uptickObjectiveCompletionCount
 GET		/application/downtickobjectivecompletioncount/{engagedQuestId}/{objectiveIndex}/?		Application.downtickObjectiveCompletionCount
 
+# Users
+GET		/usercontroller/user/view/{userid}/?	UserController.viewUser
+GET 	/usercontroller/user/{userid}/?			UserController.getUser(format:'json')
+
 # Ignore favicon requests
 GET     /favicon.ico                            404
 

@@ -11,29 +11,18 @@ import models.Statistics.STATS;
 import play.Logger;
 import play.db.jpa.Model;
 
-@Entity
-public class EngagedQuest extends Model{
-	@ManyToOne
-	public User owner;
+public class EngagedQuest{
 	
-	@OneToOne
-	public Quest quest;
+	public long questid;
 
-	public int[] objectiveProgress;
+	public List<Integer> objectiveProgress;
 	
 	public boolean completed;
 	public Date completedOn;
 	
-	public EngagedQuest(User _owner, Quest _quest) {
-		owner = _owner;
+	public EngagedQuest(Quest _quest) {
 		quest = _quest;
 		completed = false;
-		if(null == quest)
-			Logger.info("quest is null!");
-		else
-			Logger.info("quest title: " + quest.title);
-		if(null == quest.objectives)
-			Logger.info("quest objectives is null!");
 		objectiveProgress = new int[quest.objectives.size()];
 		for(int i = 0; i < objectiveProgress.length; i++) {
 			objectiveProgress[i] = 0;

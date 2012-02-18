@@ -6,9 +6,9 @@
 		</a>
 		<ul class="nav">
   <li class="active">
-    <a href="#">Home</a>
+    <a href="@{Application.index()}">Home</a>
   </li>
-  <li><a href="#">Users</a></li>
+  <li><a href="@{UserController.viewUsers()}">Users</a></li>
   <li><a href="#">Quests</a></li>
   </ul>
   <ul class="nav pull-right">
@@ -24,10 +24,10 @@
 <li>
 #{if currentUser}
 
-	<a href="@{logout()}">Logout</a> 
+	<a href="@{Application.logout()}">Logout</a> 
 #{/if}
 #{else}
-	#{form @login() }
+	#{form @Application.login() }
 	
 	<select name="userid">
 		#{list items:users, as:'user'}

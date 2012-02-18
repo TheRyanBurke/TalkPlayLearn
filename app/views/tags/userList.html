@@ -3,7 +3,7 @@
 #{if _users}
 	<ul>
 	#{list items:_users, as:'user'}
-		<li>${user.displayname} - ${user.username}</li>
+		<li class="userHeader" id="user-${user.id}">${user.displayname} - ${user.username}</li>
 	#{/list}
 	</ul>
 #{/if}

@@ -18,8 +18,6 @@ public class Application extends Controller {
     		User current = getCurrentUser();
     		if(current != null) {
     			renderArgs.put(CURRENT_USER, current);
-    			List<EngagedQuest> engagedQuests = EngagedQuest.find("owner=?", current).fetch();
-    			renderArgs.put("engagedQuests", engagedQuests);
     		}
     	}
     	
