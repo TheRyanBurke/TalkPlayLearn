@@ -18,6 +18,8 @@ $(function() {
 		$.post( url, {questid : questid}, 
 				function(data){
 			//update page quest log
+			
+			$('.questLog').find("div.quest:first").prepend();
 		});
 	});
 	
