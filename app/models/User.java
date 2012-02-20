@@ -76,16 +76,22 @@ public class User extends Model{
 		return true;
 	}
 	
+	public void beginQuest(long questId) {
+		EngagedQuest eq = new EngagedQuest(questId);
+		quests.add(eq);
+		save();
+	}
+	
 	public void gainXP(int addXP) {
 		xp += addXP;
-		this.save();
+		save();
 		Logger.info("Gained XP: " + addXP);
 		checkLevelUp();
 	}
 	
 	public void loseXP(int loseXP) {
 		xp -= loseXP;
-		this.save();
+		save();
 		Logger.info("Lost XP: " + loseXP);
 		if(xp < 0) {
 			levelDown();
@@ -93,48 +99,46 @@ public class User extends Model{
 	}
 	
 	public void checkLevelUp() {
-		if(xp >= xpToLevel)
+		if(xp >= currentLevelXPCap())
 			levelUp();
 	}
 	
 	public void levelUp() {
+		xp = xp - currentLevelXPCap();
 		level++;
-		xp = xp - xpToLevel;
-		xpToLevel += levelXPIncrease;
-		this.save();
+		save();
 		Logger.info("Leveled up!");
 		addToLog("Level up! You are now level " + level);
 	}
 	
 	public void levelDown() {
+		xp = currentLevelXPCap() - Math.abs(xp);
 		level--;
-		xpToLevel -= levelXPIncrease;
-		xp = xpToLevel - Math.abs(xp);
-		this.save();
+		save();
 	}
 	
 	public void addStat(Statistics.STATS stat) {
-		this.addStat(stat, 1);
+		addStat(stat, 1);
 	}
 	
 	public void addStat(Statistics.STATS stat, int val) {
 		stats.addStat(stat, val);
-		this.save();
+		save();
 	}
 	
 	public void loseStat(Statistics.STATS stat) {
-		this.loseStat(stat, 1);
+		loseStat(stat, 1);
 	}
 	
 	public void loseStat(Statistics.STATS stat, int val) {
 		stats.loseStat(stat, val);
-		this.save();
+		save();
 	}
 	
 	public void addToLog(String activity) {
 		Date now = new GregorianCalendar().getTime();
 		activityLog.add(now.toString() + " -- " + activity);
-		this.save();
+		save();
 	}
 	
 	public int currentLevelXPCap() {

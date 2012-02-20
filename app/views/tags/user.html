@@ -6,9 +6,9 @@
 <div class="row">
 	<div class="span6">
 		Level ${_user.level} [title]
-		<span style="float:right;">${_user.xp}/${_user.xpToLevel}</span>
+		<span style="float:right;">${_user.xp}/${_user.currentLevelXPCap()}</span>
 		<div class="progress">
-			<div class="bar" style="width: ${100*_user.xp/_user.xpToLevel}%;"></div>
+			<div class="bar" style="width: ${100*_user.xp/_user.currentLevelXPCap()}%;"></div>
 		</div>
 	</div>
 </div>

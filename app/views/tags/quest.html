@@ -1,6 +1,10 @@
 <span class="toggleQuest">${_quest.title}</span>
 #{if _user?.eligibleForQuest(_quest)}
- - <a href="@{beginQuest()}/${_user.id}/${_quest.id}"><button class="btn btn-success btn-small">Start</button></a>
+ - 
+ #{form @UserController.beginQuest(), id:'form', class:'beginQuestForm', enctype:'multipart/form-data' }
+ <input type="hidden" name="questid" value="${_quest.id}" />
+<button type="submit" class="btn btn-success btn-small beginQuest">Start</button>
+#{/form}
 #{/if}
 <br />
 <div class="questBody collapse">

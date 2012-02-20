@@ -6,6 +6,21 @@ $(function() {
 		$('.collapse').collapse('toggle');
 	});
 	
+	$('.beginQuestForm').submit(function(event) {
+		event.preventDefault();
+		
+		//get relative questid
+		 /* get some values from elements on the page: */
+	    var $form = $( this ),
+	        questid = $form.find( 'input[name="questid"]' ).val(),
+	        url = $form.attr( 'action' );
+
+		$.post( url, {questid : questid}, 
+				function(data){
+			//update page quest log
+		});
+	});
+	
 	$('.userHeader').click(function(){
 		var userid = this.id.split("-")[1];
 		$.ajax({

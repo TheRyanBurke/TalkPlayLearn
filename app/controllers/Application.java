@@ -9,9 +9,11 @@ import java.util.*;
 import models.*;
 import models.Quest.REPEATABLE;
 
+import static utils.Constants.CURRENT_USER;
+
 public class Application extends Controller {
 
-	private static String CURRENT_USER = "currentUser";
+	
 	
     public static void index() {
     	if(session.contains(CURRENT_USER)) {
@@ -49,59 +51,7 @@ public class Application extends Controller {
     	render(users, quests);
     }
     
-    public static void beginQuest(String userid, String questid) {
-    	User current = getCurrentUser();
-    	if(current != null && current.id.equals(Long.parseLong(userid))) {
-	    	Quest q = Quest.findById(Long.parseLong(questid));
-	    	if(q != null) {
-	    		Logger.info("quest title: " + q.title + " objs: " + q.objectives.toString());
-	    		EngagedQuest eq = new EngagedQuest(q.id);
-	    		current.quests.add(eq);
-	    		current.save();
-	    	}
-    	}
-    	index();
-    }
     
-    /**
-     * 
-     * @param engagedQuestId
-     * @param objectiveIndex - the index of the objective in the EngagedQuest.objectiveProgress[]
-     */
-    public static void uptickObjectiveCompletionCount(int engagedQuestId, int objectiveIndex) {
-    	Logger.info("hit uptick: " + engagedQuestId + ", "  + objectiveIndex);
-    	
-    	User u = getCurrentUser();
-    	EngagedQuest eq = u.quests.get(engagedQuestId);
-    	if(eq != null) {
-    		eq.incrementObjectiveProgress(objectiveIndex);
-    		u.save();
-    	}
-    	
-    	index();
-    }
-    
-    public static void downtickObjectiveCompletionCount(int engagedQuestId, int objectiveIndex) {
-    	User u = getCurrentUser();
-    	EngagedQuest eq = u.quests.get(engagedQuestId);
-    	if(eq != null) {
-    		eq.decrementObjectiveProgress(objectiveIndex);
-    		u.save();
-    	}
-    	
-    	index();
-    }
-    
-    public static void awardPoint(long userId, Statistics.STATS stat, String reason) {
-    	Logger.info("awarding point to " + userId + " +1 " + stat + " for " + reason);
-    	User u = User.findById(userId);
-    	if(u != null) {
-    		Logger.info("user not null");
-    		u.addStat(stat);
-    		u.addToLog(getCurrentUser().displayname + " awarded you +1 " + stat + " for " + reason);
-    	}
-    	index();
-    }
     
     public static void login(String userid) {
     	session.put(CURRENT_USER, userid);
