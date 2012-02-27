@@ -1,5 +1,7 @@
 package controllers;
 
+import static utils.Constants.CURRENT_USER;
+
 import java.util.List;
 
 import models.EngagedQuest;
@@ -8,8 +10,6 @@ import models.Statistics;
 import models.User;
 import play.Logger;
 import play.mvc.Controller;
-
-import static utils.Constants.CURRENT_USER;
 
 public class UserController extends Controller{
 	

@@ -1,15 +1,16 @@
 package controllers;
 
-import play.*;
-import play.db.jpa.JPA;
-import play.mvc.*;
-
-import java.util.*;
-
-import models.*;
-import models.Quest.REPEATABLE;
-
 import static utils.Constants.CURRENT_USER;
+
+import java.util.List;
+
+import models.Objective;
+import models.Quest;
+import models.Quest.REPEATABLE;
+import models.Statistics;
+import models.User;
+import play.Logger;
+import play.mvc.Controller;
 
 public class Application extends Controller {
 

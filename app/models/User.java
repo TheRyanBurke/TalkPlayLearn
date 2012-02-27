@@ -1,9 +1,6 @@
 package models;
 
-import utils.Constants;
-
 import java.util.ArrayList;
-
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -11,10 +8,10 @@ import java.util.List;
 import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
 
 import play.Logger;
 import play.db.jpa.Model;
+import utils.Constants;
 
 @Entity
 public class User extends Model{
