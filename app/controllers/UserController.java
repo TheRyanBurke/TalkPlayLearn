@@ -11,6 +11,9 @@ import models.User;
 import play.Logger;
 import play.mvc.Controller;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
 public class UserController extends Controller{
 	
 	public static void viewUser(long userid) {
@@ -82,6 +85,16 @@ public class UserController extends Controller{
     
     private static User getCurrentUser() {
     	return User.findById(Long.parseLong(session.get(CURRENT_USER)));
+    }
+    
+    public static void getCurrentUserForView() {
+    	User u = getCurrentUser();
+    	Gson gson = new Gson();
+    	String jsonUser = gson.toJson(u);
+    	jsonUser = "{\"xpToLevel\":" + u.currentLevelXPCap() +
+    			",\"xpToLevelPercent\":" + (100*u.xp/u.currentLevelXPCap()) +
+    			"," + jsonUser.substring(1, jsonUser.length());
+    	renderJSON(jsonUser);
     }
 
 }

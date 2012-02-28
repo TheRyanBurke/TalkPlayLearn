@@ -1,0 +1,71 @@
+<script id="user" type="text/html">
+<div class="row">
+	<div class="span6">
+		<h3 class="userHeader" id="user-{{ id }}">{{ displayname }}</h3>
+	</div>
+</div>
+<div class="row">
+	<div class="span6">
+		Level {{ level }} [title]
+		<span style="float:right;">{{ xp }}/{{ xpToLevel }}</span>
+		<div class="progress">
+			<div class="bar" style="width: {{ xpToLevelPercent }}%;"></div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="span2">
+	<table class="table table-striped table-bordered table-condensed statsheet">
+		<tbody>
+			<tr>
+				<td>Socialness</td>
+				<td class="statsheet-value">{{ stats.socialness }}</td>
+			</tr>
+			<tr>
+				<td>Gamer</td>
+				<td class="statsheet-value">{{ stats.gamer }}</td>
+			</tr>
+			<tr>
+				<td>Academic</td>
+				<td class="statsheet-value">{{ stats.academic }}</td>
+			</tr>
+		</tbody>
+	</table>
+	</div>
+	
+	<div class="span2">
+		<img class="profilePic" src="@{'/public/img/profile.png'}"/>
+	</div>
+	
+	<div class="span2">
+		<table class="table table-striped table-bordered table-condensed statsheet">
+		<tbody>
+			<tr>
+				<td>Creativity</td>
+				<td class="statsheet-value">{{ stats.creativity }}</td>
+			</tr>
+			<tr>
+				<td>Enthusiasm</td>
+				<td class="statsheet-value">{{ stats.enthusiasm }}</td>
+			</tr>
+			<tr>
+				<td>Productivity</td>
+				<td class="statsheet-value">{{ stats.productivity }}</td>
+			</tr>
+		</tbody>
+	</table>
+	</div>
+
+</div>
+<div class="row">
+	<div class="span4">
+		quests
+	</div>
+</div>
+<div class="row">
+	<div class="span4">
+		activity log
+	</div>
+</div>
+
+</script>

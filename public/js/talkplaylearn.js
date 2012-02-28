@@ -1,4 +1,11 @@
 $(function() {
+
+	$.get('/usercontroller/getcurrentuserforview', function(data) {
+		var user = data;
+		$('.currentUser').html(ich.user(user));
+	});
+	
+	
 	$('.collapse').collapse();
 	
 	
