@@ -9,6 +9,8 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 
+import com.google.gson.Gson;
+
 import play.Logger;
 import play.db.jpa.Model;
 import utils.Constants;
@@ -140,5 +142,14 @@ public class User extends Model{
 	
 	public int currentLevelXPCap() {
 		return Constants.INITIALXPCAP + (level-1) * Constants.XPCAPINCREASE;
+	}
+	
+	public String getAsJson() {
+		Gson gson = new Gson();
+    	String jsonUser = gson.toJson(this);
+    	jsonUser = "{\"xpToLevel\":" + this.currentLevelXPCap() +
+    			",\"xpToLevelPercent\":" + (100*this.xp/this.currentLevelXPCap()) +
+    			"," + jsonUser.substring(1, jsonUser.length());
+    	return jsonUser;
 	}
 }

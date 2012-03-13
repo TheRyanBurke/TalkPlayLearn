@@ -1,7 +1,6 @@
 $(function() {
 
-	$.get('/usercontroller/getcurrentuserforview', function(data) {
-		var user = data;
+	$.get('/usercontroller/getcurrentuserforview', function(user) {
 		$('.currentUser').html(ich.user(user));
 	});
 	
@@ -39,31 +38,9 @@ $(function() {
 				
 			},
 			success: function(response) {
-				$('.userSpotlight').html("got back user: " + response.displayname);
+				$('.userSpotlight').html(ich.user(response));
 			}
 		});
 		
 	});
 });
-
-//$.ajax({
-//    data: postData,
-//    type: method,
-//    url: requestUrl,
-//    'beforeSend': function(xhr) {
-//  	  xhr.setRequestHeader ('Authorization', 'Basic ' + ringDNA.utils.base64encode(controllerConstants.getBasicAuthUsername() + ':' + controllerConstants.getBasicAuthPassword()));
-//    },
-//    contentType: 'application/x-www-form-urlencoded; charset=iso-8859-1',
-//    error: function (response) {
-//      var json = JSON.stringify(response);
-//      logger.info('error: ' + json);
-//      logger.info('message: ' + response.message);
-//      logger.info('status: ' + response.status);
-//      logger.info('detail: ' + response.detail);
-//      ringDNA.calls.responseHandler(response, type);
-//    },
-//    success: function (response) {
-//      ringDNA.calls.responseHandler(response, type);
-//    }
-//  });
-//};

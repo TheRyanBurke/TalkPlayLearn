@@ -28,7 +28,7 @@ public class UserController extends Controller{
 	
 	public static void getUser(long userid) {
 		User user = User.findById(userid);
-		renderJSON(user);
+		renderJSON(user.getAsJson());
 	}
 	
 	public static void beginQuest(String questid) {
@@ -88,13 +88,9 @@ public class UserController extends Controller{
     }
     
     public static void getCurrentUserForView() {
-    	User u = getCurrentUser();
-    	Gson gson = new Gson();
-    	String jsonUser = gson.toJson(u);
-    	jsonUser = "{\"xpToLevel\":" + u.currentLevelXPCap() +
-    			",\"xpToLevelPercent\":" + (100*u.xp/u.currentLevelXPCap()) +
-    			"," + jsonUser.substring(1, jsonUser.length());
-    	renderJSON(jsonUser);
+    	if(session.get(CURRENT_USER) != null) {
+	    	getUser(Long.parseLong(session.get(CURRENT_USER)));
+    	}
     }
 
 }
