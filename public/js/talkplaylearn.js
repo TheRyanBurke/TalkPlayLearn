@@ -1,7 +1,8 @@
 $(function() {
 
 	$.get('/usercontroller/getcurrentuserforview', function(user) {
-		$('.currentUser').html(ich.user(user));
+		if(user.id != null)
+			$('.currentUser').html(ich.user(user));
 	});
 	
 	

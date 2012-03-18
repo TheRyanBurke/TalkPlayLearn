@@ -152,4 +152,12 @@ public class User extends Model{
     			"," + jsonUser.substring(1, jsonUser.length());
     	return jsonUser;
 	}
+	
+	public int indexOfEngagedQuestsMatching(long questid) {
+    	for(int i = 0; i < quests.size(); i++) {
+    		if(!quests.get(i).completed && quests.get(i).questid == questid)
+    			return i;
+    	}
+    	return -1;
+    }
 }

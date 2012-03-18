@@ -7,12 +7,12 @@ ${_objective.description}
 		${_engagedQuest.objectiveProgress.getAt(_counter)}/${_objective.requiredCompletions}
 		&nbsp;
 		#{if _engagedQuest.objectiveProgress.getAt(_counter) > 0}
-			<a href="@{Application.downtickObjectiveCompletionCount()}/${_engagedQuest.id}/${_counter}">
+			<a href="@{UserController.downtickObjectiveCompletionCount()}/${_engagedQuest.id}/${_counter}">
 				<i class="icon-minus-sign"></i>
 			</a>
 		#{/if}
 		#{if _engagedQuest.objectiveProgress.getAt(_counter) < _objective.requiredCompletions}
-			<a href="@{Application.uptickObjectiveCompletionCount()}/${_engagedQuest.id}/${_counter}">
+			<a href="@{UserController.uptickObjectiveCompletionCount()}/${_engagedQuest.id}/${_counter}">
 				<i class="icon-plus-sign"></i>
 			</a>
 		#{/if}

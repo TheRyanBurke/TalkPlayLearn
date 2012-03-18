@@ -26,7 +26,7 @@ public class UserController extends Controller{
 		render(users);
 	}
 	
-	public static void getUser(long userid) {
+	public static void renderUserJSON(long userid) {
 		User user = User.findById(userid);
 		renderJSON(user.getAsJson());
 	}
@@ -45,14 +45,17 @@ public class UserController extends Controller{
     
     /**
      * 
-     * @param engagedQuestId
+     * @param questId
      * @param objectiveIndex - the index of the objective in the EngagedQuest.objectiveProgress[]
      */
-    public static void uptickObjectiveCompletionCount(int engagedQuestId, int objectiveIndex) {
-    	Logger.info("hit uptick: " + engagedQuestId + ", "  + objectiveIndex);
+    public static void uptickObjectiveCompletionCount(int questId, int objectiveIndex) {
+    	Logger.info("hit uptick: " + questId + ", "  + objectiveIndex);
     	
     	User u = getCurrentUser();
-    	EngagedQuest eq = u.quests.get(engagedQuestId);
+    	EngagedQuest eq = null;
+    	int indexOfQuest = u.indexOfEngagedQuestsMatching(questId);
+    	if(indexOfQuest != -1)
+    		eq = u.quests.get(indexOfQuest);
     	if(eq != null) {
     		eq.incrementObjectiveProgress(objectiveIndex);
     		u.save();
@@ -89,8 +92,10 @@ public class UserController extends Controller{
     
     public static void getCurrentUserForView() {
     	if(session.get(CURRENT_USER) != null) {
-	    	getUser(Long.parseLong(session.get(CURRENT_USER)));
+	    	renderUserJSON(Long.parseLong(session.get(CURRENT_USER)));
     	}
     }
+    
+    
 
 }
