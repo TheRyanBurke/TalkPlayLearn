@@ -1,0 +1,15 @@
+<script id="quest" type="text/html">
+<div class="quest">
+	<span class="toggleQuest">{{ title }}</span>
+	 - 
+	 <input type="hidden" name="questid" value="{{ id }}" />
+	<button type="submit" class="btn btn-success btn-small beginQuest">Start</button>
+	<br />
+	<div class="questBody collapse">
+		{{ description }} <br />
+		On completion, you will earn: TODO
+		<ol class="objectives">
+		</ol>
+	</div>
+</div>
+</script>

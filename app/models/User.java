@@ -9,11 +9,12 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 
-import com.google.gson.Gson;
-
 import play.Logger;
 import play.db.jpa.Model;
 import utils.Constants;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 @Entity
 public class User extends Model{
@@ -81,6 +82,20 @@ public class User extends Model{
 		save();
 	}
 	
+	public void tickObjective(int questId, int objectiveIndex, boolean uptick) {
+		EngagedQuest eq = null;
+    	int indexOfQuest = indexOfEngagedQuestsMatching(questId);
+    	if(indexOfQuest != -1)
+    		eq = quests.get(indexOfQuest);
+    	if(eq != null) {
+    		if(uptick)
+    			gainXP(eq.incrementObjectiveProgress(objectiveIndex));
+    		else
+    			loseXP(eq.decrementObjectiveProgress(objectiveIndex));
+    		save();
+    	}		
+	}
+	
 	public void gainXP(int addXP) {
 		xp += addXP;
 		save();
@@ -145,7 +160,11 @@ public class User extends Model{
 	}
 	
 	public String getAsJson() {
-		Gson gson = new Gson();
+		GsonBuilder gsonb = new GsonBuilder();
+		gsonb.registerTypeAdapter(EngagedQuest.class, new EngagedQuestSerializer());
+		gsonb.registerTypeAdapter(Quest.class, new QuestSerializer());
+		gsonb.registerTypeAdapter(Objective.class, new ObjectiveSerializer());
+		Gson gson = gsonb.create();
     	String jsonUser = gson.toJson(this);
     	jsonUser = "{\"xpToLevel\":" + this.currentLevelXPCap() +
     			",\"xpToLevelPercent\":" + (100*this.xp/this.currentLevelXPCap()) +

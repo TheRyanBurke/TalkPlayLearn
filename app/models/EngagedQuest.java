@@ -1,11 +1,18 @@
 package models;
 
+import java.lang.reflect.Type;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
 import javax.persistence.Embeddable;
 
 import play.Logger;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 
 @Embeddable
 public class EngagedQuest{
@@ -33,41 +40,38 @@ public class EngagedQuest{
 	
 	private void modifyObjectiveProgress(int index, int val) {
 		objectiveProgress[index] += val;
+		if(objectiveProgress[index] < 0) {
+			objectiveProgress[index] = 0;
+		}
 	}
 	
-	public void incrementObjectiveProgress(int objectiveIndex) {
-		Quest q = getQuest();
+	public int incrementObjectiveProgress(int objectiveIndex) {
 		if(!completed) {
-			modifyObjectiveProgress(objectiveIndex, 1);
+			Quest q = getQuest();
 			
-			if(objectiveProgress[objectiveIndex] == q.objectives.get(objectiveIndex).requiredCompletions) {
+			if(objectiveProgress[objectiveIndex] < q.objectives.get(objectiveIndex).requiredCompletions)
+				modifyObjectiveProgress(objectiveIndex, 1);
+			
+			if(objectiveProgress[objectiveIndex] >= q.objectives.get(objectiveIndex).requiredCompletions) {
 				Logger.info("Objective complete!");
+				return q.objectives.get(objectiveIndex).xp;
 			}
-			if(allObjectivesCompleted())
-				completeQuest();
-		} else if(q.objectives.get(objectiveIndex).bonus) {
-			modifyObjectiveProgress(objectiveIndex, 1);
-			if(objectiveProgress[objectiveIndex] == q.objectives.get(objectiveIndex).requiredCompletions) {
-				Logger.info("Post quest complete bonus Objective complete!");
-				//owner.gainXP(q.objectives.get(objectiveIndex).xp);
-			}
-		}
+		} 
+		
+		return 0;
 	}
 	
-	public void decrementObjectiveProgress(int objectiveIndex) {
-		Quest quest = getQuest();
-		if(objectiveProgress[objectiveIndex] == quest.objectives.get(objectiveIndex).requiredCompletions) {
-			if(completed && !quest.objectives.get(objectiveIndex).bonus) {
-				uncompleteQuest();
-			} else if(completed && quest.objectives.get(objectiveIndex).bonus) {
-				//owner.loseXP(quest.objectives.get(objectiveIndex).xp);
+	public int decrementObjectiveProgress(int objectiveIndex) {
+		int xploss = 0;
+		if(!completed) {
+			Quest q = getQuest();
+			if(objectiveProgress[objectiveIndex] == q.objectives.get(objectiveIndex).requiredCompletions) {
+				xploss = q.objectives.get(objectiveIndex).xp;
 			}
-		}
-		modifyObjectiveProgress(objectiveIndex, -1);
-		if(objectiveProgress[objectiveIndex] < 0) {
-			objectiveProgress[objectiveIndex] = 0;
+			modifyObjectiveProgress(objectiveIndex, -1);
 		}
 		
+		return xploss;
 	}
 	
 	public boolean allObjectivesCompleted() {
@@ -98,4 +102,18 @@ public class EngagedQuest{
 		return "I'm an EngagedQuest object!";
 	}
 	
+	
+	
+}
+
+class EngagedQuestSerializer implements JsonSerializer<EngagedQuest> {
+	@Override
+	  public JsonElement serialize(EngagedQuest src, Type typeOfSrc, JsonSerializationContext context) {
+		  Gson gson = new Gson();
+		  String json = gson.toJson(src);
+		  json = "{\"allObjectivesCompleted\":" + src.allObjectivesCompleted() +
+				  "," + "\"quest\":" + gson.toJson(src.getQuest()) +
+	    			"," + json.substring(1, json.length());
+	    return new JsonPrimitive(src.toString());
+	  }
 }

@@ -1,8 +1,17 @@
 $(function() {
 
 	$.get('/usercontroller/getcurrentuserforview', function(user) {
-		if(user.id != null)
+		if(user.id != null) {
 			$('.currentUser').html(ich.user(user));
+			$.each(user.quests, function(index, value) {
+				$('.currentUser .quests').append(ich.quest(value));
+				$objectiveListEl = $('.currentUser .quests').last().find("ol.objectives");
+				$.each(value.objectives, function(subindex, subvalue) {
+					$objectiveListEl.append(ich.objective(subvalue));
+				});
+				
+			});
+		}
 	});
 	
 	

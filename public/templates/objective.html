@@ -1,0 +1,26 @@
+<script id="objective" type="text/html">
+<li class="objective {{ complete }}">
+{{ description }}
+({{ xp }} XP)
+
+<div class="engaged">
+	<span style="float:right;">
+		{{ objectiveProgress }}/{{ requiredCompletions }}
+		&nbsp;
+		<a href="#" class="downtick">
+			<i class="icon-minus-sign"></i>
+		</a>
+		<a href="#" class="uptick">
+			<i class="icon-plus-sign"></i>
+		</a>
+	</span>
+	<div class="progress progress-info progress-striped">
+		<div class="bar" style="width: {{ percentComplete }}%;"></div>
+	</div>
+</div>
+
+<div class="unengaged">
+0/{{ requiredCompletions }}
+</div>
+</li>
+</script>

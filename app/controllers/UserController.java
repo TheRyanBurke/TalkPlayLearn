@@ -48,18 +48,12 @@ public class UserController extends Controller{
      * @param questId
      * @param objectiveIndex - the index of the objective in the EngagedQuest.objectiveProgress[]
      */
-    public static void uptickObjectiveCompletionCount(int questId, int objectiveIndex) {
+    public static void uptickObjectiveCompletionCount(int questId, int objectiveIndex, boolean uptick) {
     	Logger.info("hit uptick: " + questId + ", "  + objectiveIndex);
     	
     	User u = getCurrentUser();
-    	EngagedQuest eq = null;
-    	int indexOfQuest = u.indexOfEngagedQuestsMatching(questId);
-    	if(indexOfQuest != -1)
-    		eq = u.quests.get(indexOfQuest);
-    	if(eq != null) {
-    		eq.incrementObjectiveProgress(objectiveIndex);
-    		u.save();
-    	}
+    	u.tickObjective(questId, objectiveIndex, uptick);
+    	
     	renderJSON("success");
     	
     }

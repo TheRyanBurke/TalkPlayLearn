@@ -1,11 +1,18 @@
 package models;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 
 import play.db.jpa.Model;
 
@@ -15,11 +22,11 @@ public class Quest extends Model{
 	public String description;
 	public REPEATABLE repeatability;
 	
-	@OneToMany
-	public List<Quest> prerequirements;
-	
-	@OneToMany
-	public List<Quest> children;
+//	@OneToMany
+//	public List<Quest> prerequirements;
+//	
+//	@OneToMany
+//	public List<Quest> children;
 	
 	@OneToMany(mappedBy="qowner")
 	public List<Objective> objectives;
@@ -35,8 +42,8 @@ public class Quest extends Model{
 		title = _title;
 		description = _description;
 		repeatability = _repeat;
-		prerequirements = new ArrayList<Quest>();
-		children = new ArrayList<Quest>();
+//		prerequirements = new ArrayList<Quest>();
+//		children = new ArrayList<Quest>();
 		objectives = new ArrayList<Objective>();
 		rewards = new Statistics();
 	}
@@ -66,5 +73,16 @@ public class Quest extends Model{
 		return total;		
 	}
 	
-		
+}
+
+class QuestSerializer implements JsonSerializer<Quest> {
+	  public JsonElement serialize(Quest src, Type typeOfSrc, JsonSerializationContext context) {
+		  Gson gson = new Gson();
+		  String json = gson.toJson(src); 
+				  
+		  json = "{\"totalXP\":"+ src.totalXP() +
+				  ",\"totalXPWithBonus\":"+ src.totalXPWithBonus() +
+				  "," + json.substring(1, json.length());
+	    return new JsonPrimitive(json);
+	  }
 }

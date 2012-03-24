@@ -1,7 +1,15 @@
 package models;
 
+import java.lang.reflect.Type;
+
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 
 import play.db.jpa.Model;
 
@@ -34,4 +42,16 @@ public class Objective extends Model {
 	public String toString() {
 		return "{description: " + description + ", requiredCompletions: " + requiredCompletions + "}";
 	}
+	
+	
+}
+
+class ObjectiveSerializer implements JsonSerializer<Objective> {
+	  public JsonElement serialize(Objective src, Type typeOfSrc, JsonSerializationContext context) {
+		  String json = "{\"description\":"+ src.description +
+				  ",\"xp\":"+ src.xp +
+				  ",\"requiredCompletions\":" + src.requiredCompletions +
+				  ",\"bonus\":" + src.bonus + "}";
+	    return new JsonPrimitive(json);
+	  }
 }
