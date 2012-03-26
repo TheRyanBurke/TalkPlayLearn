@@ -75,14 +75,3 @@ public class Quest extends Model{
 	
 }
 
-class QuestSerializer implements JsonSerializer<Quest> {
-	  public JsonElement serialize(Quest src, Type typeOfSrc, JsonSerializationContext context) {
-		  Gson gson = new Gson();
-		  String json = gson.toJson(src); 
-				  
-		  json = "{\"totalXP\":"+ src.totalXP() +
-				  ",\"totalXPWithBonus\":"+ src.totalXPWithBonus() +
-				  "," + json.substring(1, json.length());
-	    return new JsonPrimitive(json);
-	  }
-}

@@ -46,12 +46,3 @@ public class Objective extends Model {
 	
 }
 
-class ObjectiveSerializer implements JsonSerializer<Objective> {
-	  public JsonElement serialize(Objective src, Type typeOfSrc, JsonSerializationContext context) {
-		  String json = "{\"description\":"+ src.description +
-				  ",\"xp\":"+ src.xp +
-				  ",\"requiredCompletions\":" + src.requiredCompletions +
-				  ",\"bonus\":" + src.bonus + "}";
-	    return new JsonPrimitive(json);
-	  }
-}

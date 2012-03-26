@@ -14,11 +14,18 @@ $(function() {
 		}
 	});
 	
+	$.get('/quests/questlist', function(quests) {
+		$('.questList').append("Quests");
+		$.each(quests, function(index, value) {
+			var quest = $.parseJSON(value);
+			$('.questList').append(ich.quest(quest));
+		});
+		$('.collapse').collapse();
+		
+	});
 	
-	$('.collapse').collapse();
 	
-	
-	$('.toggleQuest').click(function(){
+	$("body").on("click", ".toggleQuest", function() {
 		$('.collapse').collapse('toggle');
 	});
 	

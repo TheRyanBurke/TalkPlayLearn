@@ -14,6 +14,9 @@ GET		/application/downtickobjectivecompletioncount/{engagedQuestId}/{objectiveIn
 GET		/usercontroller/user/view/{userid}/?	UserController.viewUser
 GET 	/usercontroller/user/{userid}/?			UserController.getUser(format:'json')
 
+# Quests
+GET		/quests/questlist/?						QuestController.getQuests(format:'json')
+
 # Ignore favicon requests
 GET     /favicon.ico                            404
 

@@ -11,6 +11,9 @@ import javax.persistence.Entity;
 
 import play.Logger;
 import play.db.jpa.Model;
+import serializers.EngagedQuestSerializer;
+import serializers.ObjectiveSerializer;
+import serializers.QuestSerializer;
 import utils.Constants;
 
 import com.google.gson.Gson;
