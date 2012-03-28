@@ -1,7 +1,10 @@
 <script id="objective" type="text/html">
-<li class="objective {{ complete }}">
+<li class="objective">
 {{ description }}
 ({{ xp }} XP)
+<span class="unengaged">
+0/{{ requiredCompletions }}
+</span>
 
 <div class="engaged">
 	<span style="float:right;">
@@ -19,8 +22,6 @@
 	</div>
 </div>
 
-<div class="unengaged">
-0/{{ requiredCompletions }}
-</div>
+
 </li>
 </script>

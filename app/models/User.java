@@ -12,6 +12,7 @@ import javax.persistence.Entity;
 import play.Logger;
 import play.db.jpa.Model;
 import serializers.EngagedQuestSerializer;
+import serializers.ObjectiveExclusionStrategy;
 import serializers.ObjectiveSerializer;
 import serializers.QuestSerializer;
 import utils.Constants;
@@ -160,19 +161,6 @@ public class User extends Model{
 	
 	public int currentLevelXPCap() {
 		return Constants.INITIALXPCAP + (level-1) * Constants.XPCAPINCREASE;
-	}
-	
-	public String getAsJson() {
-		GsonBuilder gsonb = new GsonBuilder();
-		gsonb.registerTypeAdapter(EngagedQuest.class, new EngagedQuestSerializer());
-		gsonb.registerTypeAdapter(Quest.class, new QuestSerializer());
-		gsonb.registerTypeAdapter(Objective.class, new ObjectiveSerializer());
-		Gson gson = gsonb.create();
-    	String jsonUser = gson.toJson(this);
-    	jsonUser = "{\"xpToLevel\":" + this.currentLevelXPCap() +
-    			",\"xpToLevelPercent\":" + (100*this.xp/this.currentLevelXPCap()) +
-    			"," + jsonUser.substring(1, jsonUser.length());
-    	return jsonUser;
 	}
 	
 	public int indexOfEngagedQuestsMatching(long questid) {

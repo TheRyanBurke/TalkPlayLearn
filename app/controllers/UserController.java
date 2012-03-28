@@ -10,9 +10,10 @@ import models.Statistics;
 import models.User;
 import play.Logger;
 import play.mvc.Controller;
+import serializers.UserSerializer;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
+import com.google.gson.GsonBuilder;
 
 public class UserController extends Controller{
 	
@@ -28,7 +29,10 @@ public class UserController extends Controller{
 	
 	public static void renderUserJSON(long userid) {
 		User user = User.findById(userid);
-		renderJSON(user.getAsJson());
+		Gson gson = new GsonBuilder()
+			.registerTypeAdapter(User.class, new UserSerializer())
+			.create();
+		renderJSON(gson.toJson(user));
 	}
 	
 	public static void beginQuest(String questid) {

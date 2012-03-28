@@ -97,13 +97,7 @@ public class EngagedQuest{
 		completed = false;
 		completedOn = null;
 	}
-	
-	public String toString() {
-		return "I'm an EngagedQuest object!";
-	}
-	
-	
-	
+
 }
 
 
