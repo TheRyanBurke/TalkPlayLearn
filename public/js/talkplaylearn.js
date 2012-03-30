@@ -1,12 +1,22 @@
 $(function() {
 
-	function paintCurrentUser() { 
-		$.get('/usercontroller/getcurrentuserforview', function(user) {
-			if(user.id != null) {
-				$('.currentUser').html(ich.user(user));
-				$('.currentUser .quests .unengaged').hide();
-			}
-		});
+	function paintCurrentUser(userModel) {
+		if(userModel != null) {
+			paintUser(userModel);
+		} else {
+			$.get('/usercontroller/getcurrentuserforview', function(user) {
+				if(user != null) {
+					paintUser(user);
+				}
+			});
+		}
+	}
+	
+	function paintUser(user) {
+		$('.currentUser').html(ich.user(user));
+		$('.currentUser .collapse').collapse();
+		$('.currentUser .quests .unengaged').hide();
+		$('.currentUser .quests .engaged.completeIneligible').hide();
 	}
 	
 	paintCurrentUser();
@@ -18,15 +28,14 @@ $(function() {
 			
 			var $lastQuest = $('.questList .quest').last();
 			$lastQuest.find('button.beginQuest').click(function () {
-				$.post('/usercontroller/beginquest', 
-						{questid: $lastQuest.find("input[type='hidden']").val()}, 
-						function(data) {
-							paintCurrentUser();
+				$.post('/usercontroller/beginquest', {questid: $lastQuest.prop("id")}, 
+					function (data) {
+						paintCurrentUser();
 				});
 			});
 			
 		});
-		$('.questList .objective .engaged').hide();
+		$('.questList .engaged').hide();
 		$('.collapse').collapse();
 		
 	});
@@ -34,6 +43,22 @@ $(function() {
 	
 	$("body").on("click", ".toggleQuest", function() {
 		$(this).parent().find('.collapse').collapse('toggle');
+	});
+	
+	$("body").on("click", ".tick", function() {
+		var uptick = ($(this).hasClass("uptick")) ? true : false;
+		
+		$.post("/user/tickobjective", 
+				{questId: $(this).closest(".quest").prop("id"), 
+				objectiveIndex: $(this).closest("li").index(),
+				uptick: uptick}, 
+				function(user) {
+			paintCurrentUser(user);
+		});
+	});
+	
+	$("body").on("click", ".completeQuest", function() {
+		
 	});
 	
 	

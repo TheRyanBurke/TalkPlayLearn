@@ -27,9 +27,10 @@ public class EngagedQuestSerializer implements JsonSerializer<EngagedQuest> {
 //	    			"," + json.substring(1, json.length());
 		  String questJson = gson.toJson(src.getQuest());
 		  JsonObject questJso = new JsonParser().parse(questJson).getAsJsonObject();
-		  JsonObject jso = new JsonParser().parse(json).getAsJsonObject();
-		  jso.add("quest", questJso);
-		  jso.add("allObjectivesCompleted", new JsonPrimitive(src.allObjectivesCompleted()));
+		  JsonObject engagedQuestJso = new JsonParser().parse(json).getAsJsonObject();
+		  engagedQuestJso.add("quest", questJso);
+		  questJso.add("allObjectivesComplete", 
+				  (src.allObjectivesCompleted()) ? new JsonPrimitive("completeEligible") : new JsonPrimitive("completeIneligible"));
 		  
 		  JsonArray objArray = questJso.get("objectives").getAsJsonArray();
 		  for(int i = 0; i < objArray.size(); i++) {
@@ -37,6 +38,6 @@ public class EngagedQuestSerializer implements JsonSerializer<EngagedQuest> {
 			  j.add("objectiveProgress", new JsonPrimitive(src.objectiveProgress[i]));
 			  j.add("percentComplete", new JsonPrimitive(100*src.objectiveProgress[i]/j.get("requiredCompletions").getAsInt()));			  
 		  }
-	    return jso;
+	    return engagedQuestJso;
 	  }
 }

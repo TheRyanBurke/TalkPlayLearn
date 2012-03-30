@@ -76,7 +76,7 @@ public class EngagedQuest{
 	
 	public boolean allObjectivesCompleted() {
 		Quest quest = getQuest();
-		for(Integer i : objectiveProgress) {
+		for(int i = 0; i < objectiveProgress.length; i++) {
 			if(!quest.objectives.get(i).bonus) {
 				if(objectiveProgress[i] != quest.objectives.get(i).requiredCompletions) {
 					return false;

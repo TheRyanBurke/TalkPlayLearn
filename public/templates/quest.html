@@ -1,10 +1,11 @@
 <script id="quest" type="text/html">
-<div class="quest">
+<div class="quest" id="{{ id }}">
 	<span class="toggleQuest">{{ title }}</span>
 	<span class="unengaged">
-	 - 
-	 <input type="hidden" name="questid" value="{{ id }}" />
-	<button type="submit" class="btn btn-success btn-small beginQuest">Start</button>
+		<button class="btn btn-success btn-small beginQuest">Start</button>
+	</span>
+	<span class="engaged {{ allObjectivesComplete }}">
+		<button class="btn btn-success btn-small completeQuest">Turn in!</button>
 	</span>
 	<br />
 	<div class="questBody collapse">

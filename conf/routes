@@ -7,12 +7,11 @@ GET     /                                       Application.index
 
 # Begin quest
 GET		/application/beginquest/{userid}/{questid}/?	Application.beginQuest
-GET		/application/uptickobjectivecompletioncount/{engagedQuestId}/{objectiveIndex}/?		Application.uptickObjectiveCompletionCount
-GET		/application/downtickobjectivecompletioncount/{engagedQuestId}/{objectiveIndex}/?		Application.downtickObjectiveCompletionCount
 
 # Users
 GET		/usercontroller/user/view/{userid}/?	UserController.viewUser
 GET 	/usercontroller/user/{userid}/?			UserController.getUser(format:'json')
+POST	/user/tickobjective/?					UserController.tickObjective
 
 # Quests
 GET		/quests/questlist/?						QuestController.getQuests(format:'json')

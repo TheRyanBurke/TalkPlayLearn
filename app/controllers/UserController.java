@@ -27,12 +27,11 @@ public class UserController extends Controller{
 		render(users);
 	}
 	
-	public static void renderUserJSON(long userid) {
-		User user = User.findById(userid);
+	private static String createUserJSON(User u) {
 		Gson gson = new GsonBuilder()
 			.registerTypeAdapter(User.class, new UserSerializer())
 			.create();
-		renderJSON(gson.toJson(user));
+		return gson.toJson(u);
 	}
 	
 	public static void beginQuest(String questid) {
@@ -40,11 +39,11 @@ public class UserController extends Controller{
     	if(current != null) {
 	    	Quest q = Quest.findById(Long.parseLong(questid));
 	    	if(q != null) {
-	    		Logger.info("quest title: " + q.title + " objs: " + q.objectives.toString());
-	    		current.beginQuest(q.id);
+	    		if(current.eligibleForQuest(q))
+	    			current.beginQuest(q.id);
 	    	}
     	}
-    	renderJSON("success");
+    	renderJSON(createUserJSON(current));  
     }
     
     /**
@@ -52,25 +51,13 @@ public class UserController extends Controller{
      * @param questId
      * @param objectiveIndex - the index of the objective in the EngagedQuest.objectiveProgress[]
      */
-    public static void uptickObjectiveCompletionCount(int questId, int objectiveIndex, boolean uptick) {
+    public static void tickObjective(int questId, int objectiveIndex, boolean uptick) {
     	Logger.info("hit uptick: " + questId + ", "  + objectiveIndex);
     	
     	User u = getCurrentUser();
     	u.tickObjective(questId, objectiveIndex, uptick);
     	
-    	renderJSON("success");
-    	
-    }
-    
-    public static void downtickObjectiveCompletionCount(int engagedQuestId, int objectiveIndex) {
-    	User u = getCurrentUser();
-    	EngagedQuest eq = u.quests.get(engagedQuestId);
-    	if(eq != null) {
-    		eq.decrementObjectiveProgress(objectiveIndex);
-    		u.save();
-    	}
-    	renderJSON("success");
-    	
+    	renderJSON(createUserJSON(u));    	
     }
     
     public static void awardPoint(long userId, Statistics.STATS stat, String reason) {
@@ -90,7 +77,8 @@ public class UserController extends Controller{
     
     public static void getCurrentUserForView() {
     	if(session.get(CURRENT_USER) != null) {
-	    	renderUserJSON(Long.parseLong(session.get(CURRENT_USER)));
+    		User u = User.findById(Long.parseLong(session.get(CURRENT_USER)));
+	    	renderJSON(createUserJSON(u));
     	}
     }
     
