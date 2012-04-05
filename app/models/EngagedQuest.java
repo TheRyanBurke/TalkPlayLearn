@@ -87,10 +87,19 @@ public class EngagedQuest{
 		return true;
 	}
 	
-	public void completeQuest() {
+	public int completeQuest() {
 		completed = true;
 		completedOn = new GregorianCalendar().getTime();
 		Logger.info("Quest completed!");
+		Quest q = getQuest();
+		int xpGained = q.totalXP();
+		for(int i = 0; i < q.objectives.size(); i++) {
+			Objective o = q.objectives.get(i);
+			if(o.bonus && objectiveProgress[i] >= o.requiredCompletions) {
+				xpGained += o.xp;
+			}
+		}
+		return xpGained;
 	}
 	
 	public void uncompleteQuest() {

@@ -45,6 +45,15 @@ public class UserController extends Controller{
     	}
     	renderJSON(createUserJSON(current));  
     }
+	
+	public static void completeQuest(long questid) {
+		User current = getCurrentUser();
+		if(current != null) {
+			current.completeQuest(questid);
+		}
+		
+		renderJSON(createUserJSON(current));
+	}
     
     /**
      * 

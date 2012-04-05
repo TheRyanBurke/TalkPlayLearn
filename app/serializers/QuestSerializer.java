@@ -3,6 +3,7 @@ package serializers;
 import java.lang.reflect.Type;
 
 import models.Quest;
+import models.Statistics;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -19,6 +20,7 @@ public class QuestSerializer implements JsonSerializer<Quest> {
 		  
 		  Gson gson = new GsonBuilder()
 		  	.addSerializationExclusionStrategy(new ObjectiveExclusionStrategy())
+		  	.registerTypeAdapter(Statistics.class, new StatisticsSerializer())
 		  	.create();
 		  String json = gson.toJson(src); 
 				  

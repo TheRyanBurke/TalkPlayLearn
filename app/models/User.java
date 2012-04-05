@@ -4,21 +4,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Map.Entry;
 
 import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 
+import models.Statistics.STATS;
 import play.Logger;
 import play.db.jpa.Model;
-import serializers.EngagedQuestSerializer;
-import serializers.ObjectiveExclusionStrategy;
-import serializers.ObjectiveSerializer;
-import serializers.QuestSerializer;
 import utils.Constants;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 @Entity
 public class User extends Model{
@@ -27,6 +22,9 @@ public class User extends Model{
 	
 	@ElementCollection
 	public List<EngagedQuest> quests;
+	
+	@ElementCollection
+	public List<EngagedQuest> completedQuests;
 	
 	public int xp;
 	public int level;
@@ -48,6 +46,7 @@ public class User extends Model{
 		displayname = _displayname;
 		username = _username;
 		quests = new ArrayList<EngagedQuest>();
+		completedQuests = new ArrayList<EngagedQuest>();
 		stats = new Statistics();
 		xp = 0;
 		level = 1;
@@ -77,6 +76,18 @@ public class User extends Model{
 				}
 			} 
 		}
+		for(EngagedQuest eq : completedQuests) {
+			if(eq.getQuest().equals(search)) {
+				if(search.repeatability == Quest.REPEATABLE.DAILY) {
+					if(new GregorianCalendar().getTime().getTime() - eq.completedOn.getTime() < 86400000L) {
+						return false;
+					}
+				} else if(search.repeatability == Quest.REPEATABLE.ONCE) {
+					//completed and one time only
+					return false;
+				}
+			}
+		}
 		return true;
 	}
 	
@@ -86,18 +97,36 @@ public class User extends Model{
 		save();
 	}
 	
-	public void tickObjective(int questId, int objectiveIndex, boolean uptick) {
+	public void tickObjective(long questId, int objectiveIndex, boolean uptick) {
 		EngagedQuest eq = null;
     	int indexOfQuest = indexOfEngagedQuestsMatching(questId);
     	if(indexOfQuest != -1)
     		eq = quests.get(indexOfQuest);
     	if(eq != null) {
+    		//don't add xp on objective completion, wait for quest completion
     		if(uptick)
-    			gainXP(eq.incrementObjectiveProgress(objectiveIndex));
+    			/*gainXP(*/eq.incrementObjectiveProgress(objectiveIndex);
     		else
-    			loseXP(eq.decrementObjectiveProgress(objectiveIndex));
+    			/*loseXP(*/eq.decrementObjectiveProgress(objectiveIndex);
     		save();
     	}		
+	}
+	
+	public void completeQuest(long questid) {
+		EngagedQuest eq = null;
+		int indexOfQuest = indexOfEngagedQuestsMatching(questid);
+		if(indexOfQuest != -1)
+			eq = quests.get(indexOfQuest);
+		if(eq != null && eq.allObjectivesCompleted() && !eq.completed) {
+			gainXP(eq.completeQuest());
+			completedQuests.add(eq);
+			addToLog("Completed quest: " + eq.getQuest().title);
+			for(Entry<STATS, Integer> entry : eq.getQuest().rewards.populatedStatsMap().entrySet()) {
+				addStat(entry.getKey(), entry.getValue());
+			}
+			quests.remove(indexOfQuest);
+		}
+		save();
 	}
 	
 	public void gainXP(int addXP) {

@@ -1,6 +1,6 @@
 <script id="quest" type="text/html">
 <div class="quest" id="{{ id }}">
-	<span class="toggleQuest">{{ title }}</span>
+	<span class="toggleQuest">{{ title }} ({{ repeatability }})</span>
 	<span class="unengaged">
 		<button class="btn btn-success btn-small beginQuest">Start</button>
 	</span>
@@ -10,10 +10,13 @@
 	<br />
 	<div class="questBody collapse">
 		{{ description }} <br />
-		On completion, you will earn: TODO
-		<ol>
-		
-		</ol>
+		On completion, you will earn:
+		<ul>
+			<li>{{totalXP}}-{{totalXPWithBonus}} XP</li>
+			{{#rewards}}
+				<li>{{ . }}</li>
+			{{/rewards}}
+		</ul>
 		<ol class="objectives">
 			{{#objectives}}
 				{{> objective}}

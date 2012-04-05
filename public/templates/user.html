@@ -67,7 +67,12 @@
 </div>
 <div class="row">
 	<div class="span4">
-		activity log
+		<b>Activity Log</b>
+		<ul class="activityLog">
+		{{#activityLog}}
+			<li>{{ . }}</li>
+		{{/activityLog}}
+		</ul>
 	</div>
 </div>
 

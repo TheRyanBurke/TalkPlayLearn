@@ -1,5 +1,8 @@
 package models;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.persistence.Embeddable;
 
 @Embeddable
@@ -86,5 +89,15 @@ public class Statistics{
 				break;
 			default: break;
 		}	
+	}
+	
+	public Map<STATS, Integer> populatedStatsMap() {
+		Map<STATS, Integer> stats = new HashMap<STATS, Integer>();
+		for(STATS s : STATS.values()) {
+			if(getStat(s) > 0)
+				stats.put(s, getStat(s));
+		}
+		
+		return stats;
 	}
 }

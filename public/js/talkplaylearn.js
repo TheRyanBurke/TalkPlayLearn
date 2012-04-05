@@ -5,7 +5,7 @@ $(function() {
 			paintUser(userModel);
 		} else {
 			$.get('/usercontroller/getcurrentuserforview', function(user) {
-				if(user != null) {
+				if(user != null && user != "") {
 					paintUser(user);
 				}
 			});
@@ -58,7 +58,12 @@ $(function() {
 	});
 	
 	$("body").on("click", ".completeQuest", function() {
-		
+		var questid = $(this).closest(".quest").prop("id");
+		$.post("/usercontroller/completequest",
+				{questid: questid},
+				function(user) {
+					paintCurrentUser(user);
+				});
 	});
 	
 	
