@@ -5,12 +5,12 @@
   			TalkPlayLearn
 		</a>
 		<ul class="nav">
-  <li class="active">
-    <a href="@{Application.index()}">Home</a>
-  </li>
-  <li><a href="@{UserController.viewUsers()}">Users</a></li>
-  <li><a href="#">Quests</a></li>
-  </ul>
+		  <li class="active home">
+		    <a href="@{Application.index()}">Home</a>
+		  </li>
+		  <li class="users"><a href="@{UserController.viewUsers()}">Users</a></li>
+		  <li class="quests"><a href="@{QuestController.newQuest()}">Quests</a></li>
+		</ul>
   <ul class="nav pull-right">
 #{if currentUser}  
   <li>

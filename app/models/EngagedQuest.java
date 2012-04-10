@@ -1,18 +1,11 @@
 package models;
 
-import java.lang.reflect.Type;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
 import javax.persistence.Embeddable;
 
 import play.Logger;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonPrimitive;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
 
 @Embeddable
 public class EngagedQuest{

@@ -1,15 +1,7 @@
 package models;
 
-import java.lang.reflect.Type;
-
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonPrimitive;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
 
 import play.db.jpa.Model;
 
@@ -25,6 +17,10 @@ public class Objective extends Model {
 	public int requiredCompletions;
 	
 	public boolean bonus;
+	
+	public Objective() {
+		
+	}
 	
 	public Objective(String _description, int _requiredCompletions, Quest q, int _xp, boolean _bonus) {
 		description = _description;

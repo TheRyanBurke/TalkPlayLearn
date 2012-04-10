@@ -4,7 +4,6 @@ import static utils.Constants.CURRENT_USER;
 
 import java.util.List;
 
-import models.EngagedQuest;
 import models.Quest;
 import models.Statistics;
 import models.User;
