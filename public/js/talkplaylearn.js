@@ -22,7 +22,7 @@ $(function() {
 	paintCurrentUser();
 	
 	$.get('/quests/questlist', function(quests) {
-		$('.questList').append("Quests");
+		$('.questList').append("<h4>Quests</h4>");
 		$.each(quests, function(index, value) {
 			$('.questList').append(ich.quest(value));
 			

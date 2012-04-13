@@ -35,7 +35,6 @@ public class ObjectiveController extends Controller {
 	private static String getJSON(Objective o) {
 		Gson gson = new GsonBuilder()
 	  	.addSerializationExclusionStrategy(new ObjectiveExclusionStrategy())
-	  	.registerTypeAdapter(Statistics.class, new StatisticsSerializer())
 	  	.create();
 		return gson.toJson(o);
 	}

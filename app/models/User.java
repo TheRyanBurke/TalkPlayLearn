@@ -184,7 +184,7 @@ public class User extends Model{
 	
 	public void addToLog(String activity) {
 		Date now = new GregorianCalendar().getTime();
-		activityLog.add(now.toString() + " -- " + activity);
+		activityLog.add(0, now.toString() + " -- " + activity); //add to head
 		save();
 	}
 	
