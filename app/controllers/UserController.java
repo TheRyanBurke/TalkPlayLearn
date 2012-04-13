@@ -26,6 +26,10 @@ public class UserController extends Controller{
 		render(users);
 	}
 	
+	public static void getUser(long userid) {
+		renderJSON(createUserJSON((User) User.findById(userid)));
+	}
+	
 	private static String createUserJSON(User u) {
 		Gson gson = new GsonBuilder()
 			.registerTypeAdapter(User.class, new UserSerializer())
