@@ -1,0 +1,59 @@
+Statistics(sirlinStats):
+    gamer: 5
+    academic: 3
+    socialness: 3
+
+Quest(sirlin):
+    title: "Student of Sirlin" 
+    description: "David Sirlin is a game designer famous for his table top games Yomi, Puzzle Strike, and Flash Duel. He is also known for his writings on the subjects of competition and balance. If you have any interest in understanding or designing competitive games, becoming a Student of Sirlin is your first step. Yomi and Puzzle Strike are playable for free online at www.fantasystrike.com. His articles on competition can be found at www.sirlin.net and a book of his articles can be found at amazon.com."
+    repeatability: ONCE
+    rewards: sirlinStats
+    
+Objective(sirlinarticles):
+    qowner: sirlin
+    description: "Read any three of Sirlin’s articles"
+    xp: 150
+    requiredCompletions: 3 
+    bonus: false
+    
+Objective(yomi):
+    qowner: sirlin
+    description: "Play three games of Yomi"
+    xp: 100
+    requiredCompletions: 3 
+    bonus: false
+
+Objective(yomiBonus):
+    qowner: sirlin
+    description: "Bonus! Play any of them with members of AGD"
+    xp: 50
+    requiredCompletions: 1
+    bonus: true
+    
+Objective(puzzleStrike):
+    qowner: sirlin
+    description: "Play three games of Puzzle Strike"
+    xp: 100
+    requiredCompletions: 3
+    bonus: false
+    
+Objective(puzzleStrikeBonus):
+    qowner: sirlin
+    description: "Bonus! Play any of them with members of AGD"
+    xp: 50
+    requiredCompletions: 1
+    bonus: true
+    
+Objective(flashDuel):
+    qowner: sirlin
+    description: "Play three games of Flash Duel"
+    xp: 100
+    requiredCompletions: 3
+    bonus: true
+    
+Objective(flashDuelBonus):
+    qowner: sirlin
+    description: "Bonus! Play any of them with members of AGD"
+    xp: 50
+    requiredCompletions: 1
+    bonus: true
