@@ -3,12 +3,15 @@ package models;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 
 import models.Statistics.STATS;
 import play.Logger;
@@ -20,11 +23,8 @@ public class User extends Model{
 	public String displayname;
 	public String username;
 	
-	@ElementCollection
-	public List<EngagedQuest> quests;
-	
-	@ElementCollection
-	public List<EngagedQuest> completedQuests;
+	@OneToMany(mappedBy = "quest")
+	public Set<EngagedQuest> quests;
 	
 	public int xp;
 	public int level;
@@ -45,8 +45,7 @@ public class User extends Model{
 	public User(String _displayname, String _username) {
 		displayname = _displayname;
 		username = _username;
-		quests = new ArrayList<EngagedQuest>();
-		completedQuests = new ArrayList<EngagedQuest>();
+		quests = new HashSet<EngagedQuest>();
 		stats = new Statistics();
 		xp = 0;
 		level = 1;
@@ -59,7 +58,7 @@ public class User extends Model{
 	
 	public boolean eligibleForQuest(Quest search) {
 		for(EngagedQuest eq : quests) {
-			if(eq.getQuest().equals(search)) {
+			if(eq.quest.equals(search)) {
 				//found a user tracked quest that matches
 				if(eq.completed) {
 					if(search.repeatability == Quest.REPEATABLE.DAILY) {
@@ -76,55 +75,36 @@ public class User extends Model{
 				}
 			} 
 		}
-		for(EngagedQuest eq : completedQuests) {
-			if(eq.getQuest().equals(search)) {
-				if(search.repeatability == Quest.REPEATABLE.DAILY) {
-					if(new GregorianCalendar().getTime().getTime() - eq.completedOn.getTime() < 86400000L) {
-						return false;
-					}
-				} else if(search.repeatability == Quest.REPEATABLE.ONCE) {
-					//completed and one time only
-					return false;
-				}
-			}
-		}
 		return true;
 	}
 	
 	public void beginQuest(long questId) {
-		EngagedQuest eq = new EngagedQuest(questId);
+		EngagedQuest eq = new EngagedQuest(questId, this.id);
+		eq.create();
 		quests.add(eq);
 		save();
 	}
 	
-	public void tickObjective(long questId, int objectiveIndex, boolean uptick) {
-		EngagedQuest eq = null;
-    	int indexOfQuest = indexOfEngagedQuestsMatching(questId);
-    	if(indexOfQuest != -1)
-    		eq = quests.get(indexOfQuest);
+	public void tickObjective(long engagedQuestId, long objectiveId, boolean uptick) {
+		EngagedQuest eq = EngagedQuest.findById(engagedQuestId);
     	if(eq != null) {
     		//don't add xp on objective completion, wait for quest completion
     		if(uptick)
-    			/*gainXP(*/eq.incrementObjectiveProgress(objectiveIndex);
+    			/*gainXP(*/eq.incrementObjectiveProgress(objectiveId);
     		else
-    			/*loseXP(*/eq.decrementObjectiveProgress(objectiveIndex);
+    			/*loseXP(*/eq.decrementObjectiveProgress(objectiveId);
     		save();
     	}		
 	}
 	
-	public void completeQuest(long questid) {
-		EngagedQuest eq = null;
-		int indexOfQuest = indexOfEngagedQuestsMatching(questid);
-		if(indexOfQuest != -1)
-			eq = quests.get(indexOfQuest);
+	public void completeQuest(long engagedQuestId) {
+		EngagedQuest eq = EngagedQuest.findById(engagedQuestId);
 		if(eq != null && eq.allObjectivesCompleted() && !eq.completed) {
 			gainXP(eq.completeQuest());
-			completedQuests.add(eq);
-			addToLog("Completed quest: " + eq.getQuest().title);
-			for(Entry<STATS, Integer> entry : eq.getQuest().rewards.populatedStatsMap().entrySet()) {
+			addToLog("Completed quest: " + eq.quest.title);
+			for(Entry<STATS, Integer> entry : eq.quest.rewards.populatedStatsMap().entrySet()) {
 				addStat(entry.getKey(), entry.getValue());
 			}
-			quests.remove(indexOfQuest);
 		}
 		save();
 	}
@@ -164,20 +144,20 @@ public class User extends Model{
 		save();
 	}
 	
-	public void addStat(Statistics.STATS stat) {
+	public void addStat(STATS stat) {
 		addStat(stat, 1);
 	}
 	
-	public void addStat(Statistics.STATS stat, int val) {
+	public void addStat(STATS stat, int val) {
 		stats.addStat(stat, val);
 		save();
 	}
 	
-	public void loseStat(Statistics.STATS stat) {
+	public void loseStat(STATS stat) {
 		loseStat(stat, 1);
 	}
 	
-	public void loseStat(Statistics.STATS stat, int val) {
+	public void loseStat(STATS stat, int val) {
 		stats.loseStat(stat, val);
 		save();
 	}
@@ -192,11 +172,4 @@ public class User extends Model{
 		return Constants.INITIALXPCAP + (level-1) * Constants.XPCAPINCREASE;
 	}
 	
-	public int indexOfEngagedQuestsMatching(long questid) {
-    	for(int i = 0; i < quests.size(); i++) {
-    		if(!quests.get(i).completed && quests.get(i).questid == questid)
-    			return i;
-    	}
-    	return -1;
-    }
 }

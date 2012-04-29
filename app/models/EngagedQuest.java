@@ -2,76 +2,86 @@ package models;
 
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Map;
 
-import javax.persistence.Embeddable;
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.MapKeyJoinColumn;
 
 import play.Logger;
+import play.db.jpa.Model;
 
-@Embeddable
-public class EngagedQuest{
+@Entity
+public class EngagedQuest extends Model {
 	
-	public long questid;
-
-	public int[] objectiveProgress;
+	@ManyToOne
+	public Quest quest;
+	
+	@ManyToOne
+	public User user;
+	
+	@ElementCollection
+	@CollectionTable(name="OBJECTIVE_PROGRESS",
+					joinColumns=@JoinColumn(name="ENGAGEDQUEST"))
+	@Column(name="PROGRESS")
+	@MapKeyJoinColumn(name="OBJECTIVE", referencedColumnName="ID")
+	public Map<Objective, Integer> progress;
 	
 	public boolean completed;
 	public Date completedOn;
 	
-	public Quest getQuest() {
-		return Quest.findById(questid);
-	}
-	
-	public EngagedQuest(long _questid) {
-		questid = _questid;
+	public EngagedQuest(long questid, long userid) {
+		quest = Quest.findById(questid);
+		user = User.findById(userid);
 		completed = false;
-		objectiveProgress = new int[getQuest().objectives.size()];
-		int count = getQuest().objectives.size();
-		for(int i = 0; i < count; i++) {
-			objectiveProgress[i] = 0;
-		}
+		progress = new HashMap<Objective, Integer>();
 	}
 	
-	private void modifyObjectiveProgress(int index, int val) {
-		objectiveProgress[index] += val;
-		if(objectiveProgress[index] < 0) {
-			objectiveProgress[index] = 0;
-		}
+	private void modifyObjectiveProgress(Objective o, int val) {
+		progress.put(o, progress.get(o) + val);
 	}
 	
-	public int incrementObjectiveProgress(int objectiveIndex) {
+	public int incrementObjectiveProgress(long objectiveid) {
 		if(!completed) {
-			Quest q = getQuest();
+			Objective o = Objective.findById(objectiveid);
 			
-			if(objectiveProgress[objectiveIndex] < q.objectives.get(objectiveIndex).requiredCompletions)
-				modifyObjectiveProgress(objectiveIndex, 1);
+			if(progress.get(o) >= o.requiredCompletions) {
+				progress.put(o, o.requiredCompletions);
+				return 0;
+			} else
+				modifyObjectiveProgress(o, 1);
 			
-			if(objectiveProgress[objectiveIndex] >= q.objectives.get(objectiveIndex).requiredCompletions) {
+			if(progress.get(o) >= o.requiredCompletions) {
 				Logger.info("Objective complete!");
-				return q.objectives.get(objectiveIndex).xp;
+				return o.xp;
 			}
 		} 
 		
 		return 0;
 	}
 	
-	public int decrementObjectiveProgress(int objectiveIndex) {
+	public int decrementObjectiveProgress(long objectiveid) {
 		int xploss = 0;
 		if(!completed) {
-			Quest q = getQuest();
-			if(objectiveProgress[objectiveIndex] == q.objectives.get(objectiveIndex).requiredCompletions) {
-				xploss = q.objectives.get(objectiveIndex).xp;
+			Objective o = Objective.findById(objectiveid);
+			if(progress.get(o) == o.requiredCompletions) {
+				xploss = o.xp;
 			}
-			modifyObjectiveProgress(objectiveIndex, -1);
+			modifyObjectiveProgress(o, -1);
 		}
 		
 		return xploss;
 	}
 	
 	public boolean allObjectivesCompleted() {
-		Quest quest = getQuest();
-		for(int i = 0; i < objectiveProgress.length; i++) {
-			if(!quest.objectives.get(i).bonus) {
-				if(objectiveProgress[i] != quest.objectives.get(i).requiredCompletions) {
+		for(Objective o : quest.objectives) {
+			if(!o.bonus) {
+				if(progress.get(o) < o.requiredCompletions) {
 					return false;
 				}
 			}
@@ -84,11 +94,9 @@ public class EngagedQuest{
 		completed = true;
 		completedOn = new GregorianCalendar().getTime();
 		Logger.info("Quest completed!");
-		Quest q = getQuest();
-		int xpGained = q.totalXP();
-		for(int i = 0; i < q.objectives.size(); i++) {
-			Objective o = q.objectives.get(i);
-			if(o.bonus && objectiveProgress[i] >= o.requiredCompletions) {
+		int xpGained = quest.totalXP();
+		for(Objective o : quest.objectives) {
+			if(o.bonus && progress.get(o) >= o.requiredCompletions) {
 				xpGained += o.xp;
 			}
 		}
