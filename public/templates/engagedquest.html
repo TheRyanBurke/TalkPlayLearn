@@ -1,8 +1,8 @@
-<script id="quest" type="text/html">
+<script id="engagedquest" type="text/html">
 <div class="quest" id="{{ id }}">
 	<span class="toggleQuest">{{ title }} ({{ repeatability }})</span>
-	<span class="unengaged">
-		<button class="btn btn-success btn-small beginQuest">Start</button>
+	<span class="engaged {{ allObjectivesComplete }}">
+		<button class="btn btn-success btn-small completeQuest">Turn in!</button>
 	</span>
 	<br />
 	<div class="questBody collapse">

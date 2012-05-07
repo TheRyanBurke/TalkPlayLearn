@@ -30,24 +30,14 @@ public class QuestController extends Controller {
 		Gson gson = new Gson();
 		
 		Quest q = gson.fromJson(quest, Quest.class);
+		q.create();
 		
-		List<Objective> objs = new ArrayList<Objective>();
-		objs = q.objectives;
-		
-		q.objectives = new ArrayList<Objective>();
-		
-		q.save();
-		
-		
-		for(Objective o : objs) {
-			Objective o2 = ((Objective)Objective.findById(o.id));
-			o2.qowner = q;
-			o2.save();			
+		for(Objective o : q.objectives) {
+			o.qowner = q;
+			o.create();
 		}
 		
-		
-		
-		
+		q.save();
 		
 		renderJSON(getJSON((Quest) Quest.findById(q.id)));
 	}

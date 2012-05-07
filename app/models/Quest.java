@@ -1,7 +1,7 @@
 package models;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -22,7 +22,7 @@ public class Quest extends Model{
 //	public List<Quest> children;
 	
 	@OneToMany(mappedBy="qowner")
-	public List<Objective> objectives;
+	public Set<Objective> objectives;
 	
 	@Embedded
 	public Statistics rewards;
@@ -37,7 +37,7 @@ public class Quest extends Model{
 		repeatability = _repeat;
 //		prerequirements = new ArrayList<Quest>();
 //		children = new ArrayList<Quest>();
-		objectives = new ArrayList<Objective>();
+		objectives = new HashSet<Objective>();
 		rewards = new Statistics();
 	}
 	

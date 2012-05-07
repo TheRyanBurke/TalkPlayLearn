@@ -3,6 +3,7 @@ package serializers;
 import java.lang.reflect.Type;
 
 import models.EngagedQuest;
+import models.Objective;
 import models.Quest;
 
 import com.google.gson.Gson;
@@ -25,7 +26,7 @@ public class EngagedQuestSerializer implements JsonSerializer<EngagedQuest> {
 //		  json = "{\"allObjectivesCompleted\":" + src.allObjectivesCompleted() +
 //				  "," + "\"quest\":" + gson.toJson(src.getQuest()) +
 //	    			"," + json.substring(1, json.length());
-		  String questJson = gson.toJson(src.getQuest());
+		  String questJson = gson.toJson(src.quest);
 		  JsonObject questJso = new JsonParser().parse(questJson).getAsJsonObject();
 		  JsonObject engagedQuestJso = new JsonParser().parse(json).getAsJsonObject();
 		  engagedQuestJso.add("quest", questJso);
@@ -35,8 +36,9 @@ public class EngagedQuestSerializer implements JsonSerializer<EngagedQuest> {
 		  JsonArray objArray = questJso.get("objectives").getAsJsonArray();
 		  for(int i = 0; i < objArray.size(); i++) {
 			  JsonObject j = objArray.get(i).getAsJsonObject();
-			  j.add("objectiveProgress", new JsonPrimitive(src.objectiveProgress[i]));
-			  j.add("percentComplete", new JsonPrimitive(100*src.objectiveProgress[i]/j.get("requiredCompletions").getAsInt()));			  
+			  Objective o = Objective.findById(j.get("id").getAsLong());
+			  j.add("objectiveProgress", new JsonPrimitive(src.progress.get(o)));
+			  j.add("percentComplete", new JsonPrimitive(100*src.progress.get(o)/j.get("requiredCompletions").getAsInt()));			  
 		  }
 	    return engagedQuestJso;
 	  }
