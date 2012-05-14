@@ -3,20 +3,23 @@ package models;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.persistence.ElementCollection;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.MapKeyEnumerated;
 import javax.persistence.OneToMany;
 
-import models.Statistics.STATS;
 import play.Logger;
 import play.db.jpa.Model;
 import utils.Constants;
+import utils.Constants.STATS;
 
 @Entity
 public class User extends Model{
@@ -39,14 +42,14 @@ public class User extends Model{
 	 * 
 	 * want certain combos of stats to unlock Classes like Final Fantasy Tactics
 	 */
-	@Embedded
-	public Statistics stats;
+	@MapKeyEnumerated(EnumType.STRING)
+	public Map<STATS, Integer> stats;
 	
 	public User(String _displayname, String _username) {
 		displayname = _displayname;
 		username = _username;
 		quests = new HashSet<EngagedQuest>();
-		stats = new Statistics();
+		stats = new HashMap<STATS, Integer>();// new Statistics();
 		xp = 0;
 		level = 1;
 		activityLog = new ArrayList<String>();
@@ -102,7 +105,7 @@ public class User extends Model{
 		if(eq != null && eq.allObjectivesCompleted() && !eq.completed) {
 			gainXP(eq.completeQuest());
 			addToLog("Completed quest: " + eq.quest.title);
-			for(Entry<STATS, Integer> entry : eq.quest.rewards.populatedStatsMap().entrySet()) {
+			for(Entry<STATS, Integer> entry : eq.quest.reward.entrySet()) {
 				addStat(entry.getKey(), entry.getValue());
 			}
 		}
@@ -149,7 +152,7 @@ public class User extends Model{
 	}
 	
 	public void addStat(STATS stat, int val) {
-		stats.addStat(stat, val);
+		stats.put(stat, stats.get(stat) + val);
 		save();
 	}
 	
@@ -158,7 +161,7 @@ public class User extends Model{
 	}
 	
 	public void loseStat(STATS stat, int val) {
-		stats.loseStat(stat, val);
+		stats.put(stat, stats.get(stat) - val);
 		save();
 	}
 	

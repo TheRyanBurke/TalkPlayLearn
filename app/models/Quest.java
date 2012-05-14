@@ -1,17 +1,23 @@
 package models;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
-import javax.persistence.Embedded;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.MapKeyEnumerated;
 import javax.persistence.OneToMany;
 
 import play.db.jpa.Model;
+import utils.Constants;
 
 @Entity
 public class Quest extends Model{
 	public String title;
+	@Column(columnDefinition="VARCHAR(2000)")
 	public String description;
 	public REPEATABLE repeatability;
 	
@@ -24,8 +30,11 @@ public class Quest extends Model{
 	@OneToMany(mappedBy="qowner")
 	public Set<Objective> objectives;
 	
-	@Embedded
-	public Statistics rewards;
+//	@Embedded
+//	public Statistics rewards;
+	
+	@MapKeyEnumerated(EnumType.STRING)
+	public Map<Constants.STATS, Integer> reward;
 	
 	public enum REPEATABLE {
 		ONCE, DAILY, UNLIMITED
@@ -38,7 +47,8 @@ public class Quest extends Model{
 //		prerequirements = new ArrayList<Quest>();
 //		children = new ArrayList<Quest>();
 		objectives = new HashSet<Objective>();
-		rewards = new Statistics();
+		//rewards = new Statistics();
+		reward = new HashMap<Constants.STATS, Integer>();
 	}
 	
 	public Quest() {

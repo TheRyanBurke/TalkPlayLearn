@@ -5,11 +5,11 @@ import static utils.Constants.CURRENT_USER;
 import java.util.List;
 
 import models.Quest;
-import models.Statistics;
 import models.User;
 import play.Logger;
 import play.mvc.Controller;
 import serializers.UserSerializer;
+import utils.Constants;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -72,7 +72,7 @@ public class UserController extends Controller{
     	renderJSON(createUserJSON(u));    	
     }
     
-    public static void awardPoint(long userId, Statistics.STATS stat, String reason) {
+    public static void awardPoint(long userId, Constants.STATS stat, String reason) {
     	Logger.info("awarding point to " + userId + " +1 " + stat + " for " + reason);
     	User u = User.findById(userId);
     	if(u != null) {
