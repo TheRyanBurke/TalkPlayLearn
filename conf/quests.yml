@@ -2,8 +2,6 @@ Quest(sirlin):
     title: Student of Sirlin
     description: David Sirlin is a game designer famous for his table top games Yomi, Puzzle Strike, and Flash Duel. He is also known for his writings on the subjects of competition and balance. If you have any interest in understanding or designing competitive games, becoming a Student of Sirlin is your first step. Yomi and Puzzle Strike are playable for free online at www.fantasystrike.com. His articles on competition can be found at www.sirlin.net and a book of his articles can be found at amazon.com.
     repeatability: ONCE
-    reward:
-        CREATIVITY: 1 
     
 Objective(sirlinarticles):
     qowner: sirlin

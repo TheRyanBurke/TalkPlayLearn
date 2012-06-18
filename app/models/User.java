@@ -42,6 +42,7 @@ public class User extends Model{
 	 * 
 	 * want certain combos of stats to unlock Classes like Final Fantasy Tactics
 	 */
+	@ElementCollection
 	@MapKeyEnumerated(EnumType.STRING)
 	public Map<STATS, Integer> stats;
 	

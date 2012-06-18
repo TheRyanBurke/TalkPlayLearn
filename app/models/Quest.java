@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.MapKeyEnumerated;
@@ -33,6 +34,7 @@ public class Quest extends Model{
 //	@Embedded
 //	public Statistics rewards;
 	
+	@ElementCollection
 	@MapKeyEnumerated(EnumType.STRING)
 	public Map<Constants.STATS, Integer> reward;
 	
@@ -74,6 +76,46 @@ public class Quest extends Model{
 		}
 		
 		return total;		
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public REPEATABLE getRepeatability() {
+		return repeatability;
+	}
+
+	public void setRepeatability(REPEATABLE repeatability) {
+		this.repeatability = repeatability;
+	}
+
+	public Set<Objective> getObjectives() {
+		return objectives;
+	}
+
+	public void setObjectives(Set<Objective> objectives) {
+		this.objectives = objectives;
+	}
+
+	public Map<Constants.STATS, Integer> getReward() {
+		return reward;
+	}
+
+	public void setReward(Map<Constants.STATS, Integer> reward) {
+		this.reward = reward;
 	}
 	
 }
