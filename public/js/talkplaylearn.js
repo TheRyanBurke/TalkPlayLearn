@@ -50,7 +50,7 @@ $(function() {
 		
 		$.post("/user/tickobjective", 
 				{questId: $(this).closest(".quest").prop("id"), 
-				objectiveIndex: $(this).closest("li").index(),
+				objectiveIndex: $(this).closest("li").prop("id"),
 				uptick: uptick}, 
 				function(user) {
 			paintCurrentUser(user);

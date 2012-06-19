@@ -1,4 +1,5 @@
 <script id="engagedquest" type="text/html">
+{{#quest}}
 <div class="quest" id="{{ id }}">
 	<span class="toggleQuest">{{ title }} ({{ repeatability }})</span>
 	<span class="engaged {{ allObjectivesComplete }}">
@@ -16,9 +17,10 @@
 		</ul>
 		<ol class="objectives">
 			{{#objectives}}
-				{{> objective}}
+				{{> engagedobjective}}
 			{{/objectives}}
 		</ol>
 	</div>
 </div>
+{{/quest}}
 </script>

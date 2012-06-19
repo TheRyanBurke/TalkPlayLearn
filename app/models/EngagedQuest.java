@@ -40,10 +40,18 @@ public class EngagedQuest extends Model {
 		user = User.findById(userid);
 		completed = false;
 		progress = new HashMap<Objective, Integer>();
+		populateProgressMap();
+	}
+	
+	private void populateProgressMap() {
+		for(Objective o : quest.objectives) {
+			progress.put(o, 0);
+		}
 	}
 	
 	private void modifyObjectiveProgress(Objective o, int val) {
 		progress.put(o, progress.get(o) + val);
+		save();
 	}
 	
 	public int incrementObjectiveProgress(long objectiveid) {

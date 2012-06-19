@@ -12,4 +12,11 @@ public class Constants {
 	public enum STATS {
         CREATIVITY, ENTHUSIASM, PRODUCTIVITY, SOCIALNESS, GAMER, ACADEMIC
     }
+	
+	public static final String CREATIVITY = "Creativity";
+	public static final String ENTHUSIASM = "Enthusiasm";
+	public static final String PRODUCTIVITY = "Productivity";
+	public static final String SOCIALNESS = "Socialness";
+	public static final String GAMER = "Gamer";
+	public static final String ACADEMIC = "Academic";
 }

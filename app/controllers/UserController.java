@@ -64,7 +64,10 @@ public class UserController extends Controller{
      * @param objectiveIndex - the index of the objective in the EngagedQuest.objectiveProgress[]
      */
     public static void tickObjective(int questId, int objectiveIndex, boolean uptick) {
-    	Logger.info("hit uptick: " + questId + ", "  + objectiveIndex);
+    	if(uptick)
+    		Logger.info("hit uptick: " + questId + ", "  + objectiveIndex);
+    	else
+    		Logger.info("hit downtick: " + questId + ", "  + objectiveIndex);
     	
     	User u = getCurrentUser();
     	u.tickObjective(questId, objectiveIndex, uptick);

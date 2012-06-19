@@ -13,7 +13,7 @@
         <script src="@{'/public/js/jquery-1.7.1.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
         <script src="@{'/public/js/bootstrap.js'}" type="text/javascript" charset="${_response_encoding}"></script>
         <script src="@{'/public/js/less-1.2.1.min.js'}" type="text/javascript"></script>
-        <script src="@{'/public/js/ICanHaz.min.js'}" type="text/javascript"></script>
+        <script src="@{'/public/js/ICanHaz.js'}" type="text/javascript"></script>
         <script src="@{'/public/js/talkplaylearn.js'}" type="text/javascript"></script>
         #{get 'moreScripts' /}
     </head>
@@ -22,6 +22,8 @@
     	#{include '/public/templates/user.html' /}
     	#{include '/public/templates/quest.html' /}
     	#{include '/public/templates/objective.html' /}
+    	#{include '/public/templates/engagedquest.html' /}
+    	#{include '/public/templates/engagedobjective.html' /}
         #{doLayout /}
     </body>
 </html>

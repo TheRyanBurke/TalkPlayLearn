@@ -21,6 +21,7 @@ public class EngagedQuestSerializer implements JsonSerializer<EngagedQuest> {
 	  public JsonElement serialize(EngagedQuest src, Type typeOfSrc, JsonSerializationContext context) {
 		  Gson gson = new GsonBuilder()
 		  	.registerTypeAdapter(Quest.class, new QuestSerializer())
+		  	.addSerializationExclusionStrategy(new EngagedQuestExclusionStrategy())
 		  	.create();
 		  String json = gson.toJson(src);
 //		  json = "{\"allObjectivesCompleted\":" + src.allObjectivesCompleted() +
