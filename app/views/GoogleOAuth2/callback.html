@@ -16,7 +16,7 @@ req.open('GET', 'http://' + window.location.host + '/realcallback?' + queryStrin
 req.onreadystatechange = function (e) {
   if (req.readyState == 4) {
      if(req.status == 200){
-       window.location = params['state']
+       window.location = "/";
    }
   else if(req.status == 400) {
         alert('There was an error processing the token.')

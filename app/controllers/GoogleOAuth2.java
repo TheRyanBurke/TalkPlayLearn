@@ -19,7 +19,7 @@ public class GoogleOAuth2 extends Controller {
 		String url = new GoogleBrowserClientRequestUrl("593338536251.apps.googleusercontent.com",
 		        "http://localhost:9000/oauth2callback", Arrays.asList(
 		            "https://www.googleapis.com/auth/userinfo.email",
-		            "https://www.googleapis.com/auth/userinfo.profile"))/*.setState("/profile")*/.build();
+		            "https://www.googleapis.com/auth/userinfo.profile")).build();
 		redirect(url);
 	}
 	
@@ -29,7 +29,6 @@ public class GoogleOAuth2 extends Controller {
 	
 	public static void realcallback(String access_token) {
 		Logger.info("Google callback received!");
-		Request r = request.current();
 		if(access_token != null)
 			Logger.info("Google access_token returned: " + access_token);
 		
@@ -50,9 +49,8 @@ public class GoogleOAuth2 extends Controller {
 			u.pictureURL = pictureURL;
 			u.displayname = displayname;
 			u.save();
-			render();
-//			flash.put("userid", u.id);
-//			Application.login();
+			Logger.info("save action was successful");
+			Application.login(u.id);
 		} else 	
 			Application.index();
 	}
