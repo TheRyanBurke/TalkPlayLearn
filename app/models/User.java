@@ -43,14 +43,14 @@ public class User extends Model{
 	 * want certain combos of stats to unlock Classes like Final Fantasy Tactics
 	 */
 	@ElementCollection
-	@MapKeyEnumerated(EnumType.STRING)
-	public Map<STATS, Integer> stats;
+	public Map<String, Integer> stats;
 	
 	public User(String _displayname, String _username) {
 		displayname = _displayname;
 		username = _username;
 		quests = new HashSet<EngagedQuest>();
-		stats = new HashMap<STATS, Integer>();// new Statistics();
+		stats = new HashMap<String, Integer>();// new Statistics();
+		populateStats();
 		xp = 0;
 		level = 1;
 		activityLog = new ArrayList<String>();
@@ -58,6 +58,15 @@ public class User extends Model{
 	
 	public User() {
 		this("no display name", "no username");
+	}
+	
+	private void populateStats() {
+		stats.put("Creativity", 0);
+		stats.put("Enthusiasm", 0);
+		stats.put("Academic", 0);
+		stats.put("Productivity", 0);
+		stats.put("Gamer", 0);
+		stats.put("Socialness", 0);
 	}
 	
 	public boolean eligibleForQuest(Quest search) {
@@ -106,7 +115,7 @@ public class User extends Model{
 		if(eq != null && eq.allObjectivesCompleted() && !eq.completed) {
 			gainXP(eq.completeQuest());
 			addToLog("Completed quest: " + eq.quest.title);
-			for(Entry<STATS, Integer> entry : eq.quest.reward.entrySet()) {
+			for(Entry<String, Integer> entry : eq.quest.reward.entrySet()) {
 				addStat(entry.getKey(), entry.getValue());
 			}
 		}
@@ -148,20 +157,20 @@ public class User extends Model{
 		save();
 	}
 	
-	public void addStat(STATS stat) {
+	public void addStat(String stat) {
 		addStat(stat, 1);
 	}
 	
-	public void addStat(STATS stat, int val) {
+	public void addStat(String stat, int val) {
 		stats.put(stat, stats.get(stat) + val);
 		save();
 	}
 	
-	public void loseStat(STATS stat) {
+	public void loseStat(String stat) {
 		loseStat(stat, 1);
 	}
 	
-	public void loseStat(STATS stat, int val) {
+	public void loseStat(String stat, int val) {
 		stats.put(stat, stats.get(stat) - val);
 		save();
 	}

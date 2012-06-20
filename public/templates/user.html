@@ -6,7 +6,7 @@
 </div>
 <div class="row">
 	<div class="span6">
-		Level {{ level }} [title]
+		Level {{ level }}
 		<span style="float:right;">{{ xp }}/{{ xpToLevel }}</span>
 		<div class="progress">
 			<div class="bar" style="width: {{ xpToLevelPercent }}%;"></div>
@@ -19,15 +19,15 @@
 		<tbody>
 			<tr>
 				<td>Socialness</td>
-				<td class="statsheet-value">{{ stats.socialness }}</td>
+				<td class="statsheet-value">{{ statList.Socialness }}</td>
 			</tr>
 			<tr>
 				<td>Gamer</td>
-				<td class="statsheet-value">{{ stats.gamer }}</td>
+				<td class="statsheet-value">{{ stats.Gamer }}</td>
 			</tr>
 			<tr>
 				<td>Academic</td>
-				<td class="statsheet-value">{{ stats.academic }}</td>
+				<td class="statsheet-value">{{ stats.Academic }}</td>
 			</tr>
 		</tbody>
 	</table>
@@ -42,15 +42,15 @@
 		<tbody>
 			<tr>
 				<td>Creativity</td>
-				<td class="statsheet-value">{{ stats.creativity }}</td>
+				<td class="statsheet-value">{{ stats.Creativity }}</td>
 			</tr>
 			<tr>
 				<td>Enthusiasm</td>
-				<td class="statsheet-value">{{ stats.enthusiasm }}</td>
+				<td class="statsheet-value">{{ stats.Enthusiasm }}</td>
 			</tr>
 			<tr>
 				<td>Productivity</td>
-				<td class="statsheet-value">{{ stats.productivity }}</td>
+				<td class="statsheet-value">{{ stats.Productivity }}</td>
 			</tr>
 		</tbody>
 	</table>

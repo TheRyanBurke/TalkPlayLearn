@@ -1,6 +1,12 @@
 <script id="objective" type="text/html">
 <li class="objective" id="{{ id }}">
+{{#bonus}}
+	<span class="bonusObjective">
+{{/bonus}}
 {{ description }}
+{{#bonus}}
+	</span>
+{{/bonus}}
 ({{ xp }} XP)
 <span class="unengaged">
 0/{{ requiredCompletions }}

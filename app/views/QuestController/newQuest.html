@@ -1,6 +1,12 @@
 #{extends 'main.html' /}
-<link rel="stylesheet/less" type="text/css" href="@{'/public/css/quests.less'}">
-<script src="@{'/public/js/questManagement.js'}" type="text/javascript"></script>
+#{set 'moreStyles'}
+	<link rel="stylesheet/less" type="text/css" href="@{'/public/css/quests.less'}">
+#{/set}
+
+#{set 'moreScripts'}
+	<script src="@{'/public/js/questManagement.js'}" type="text/javascript"></script>
+#{/set}
+
 #{include '/public/templates/newQuest.html' /}
 
 <div class="container-fluid">

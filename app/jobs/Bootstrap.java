@@ -12,8 +12,8 @@ public class Bootstrap extends Job {
 	public void doJob() {
 		if(Quest.count() == 0)
 			Fixtures.loadModels("quests.yml");
-		if(User.count() == 0)
-			Fixtures.loadModels("users.yml");
+//		if(User.count() == 0)
+//			Fixtures.loadModels("users.yml");
 	}
 
 }

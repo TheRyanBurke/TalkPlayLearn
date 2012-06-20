@@ -1,12 +1,14 @@
 package serializers;
 
 import java.lang.reflect.Type;
+import java.util.Map.Entry;
 
 import models.Quest;
 import models.Statistics;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -31,6 +33,12 @@ public class QuestSerializer implements JsonSerializer<Quest> {
 		  JsonObject jso = new JsonParser().parse(json).getAsJsonObject();
 		  jso.add("totalXP", new JsonPrimitive(src.totalXP()));
 		  jso.add("totalXPWithBonus", new JsonPrimitive(src.totalXPWithBonus()));
+		  
+		  JsonArray rewardArray = new JsonArray();
+		  for(Entry<String, Integer> e : src.reward.entrySet()) {
+			  rewardArray.add(new JsonPrimitive("+" + e.getValue() + " " + e.getKey()));
+		  }
+		  jso.add("rewardArray", rewardArray);
 		  
 	    return jso;
 	  }

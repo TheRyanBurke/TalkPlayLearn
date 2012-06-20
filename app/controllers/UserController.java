@@ -75,7 +75,7 @@ public class UserController extends Controller{
     	renderJSON(createUserJSON(u));    	
     }
     
-    public static void awardPoint(long userId, Constants.STATS stat, String reason) {
+    public static void awardPoint(long userId, String stat, String reason) {
     	Logger.info("awarding point to " + userId + " +1 " + stat + " for " + reason);
     	User u = User.findById(userId);
     	if(u != null) {

@@ -35,8 +35,7 @@ public class Quest extends Model{
 //	public Statistics rewards;
 	
 	@ElementCollection
-	@MapKeyEnumerated(EnumType.STRING)
-	public Map<Constants.STATS, Integer> reward;
+	public Map<String, Integer> reward;
 	
 	public enum REPEATABLE {
 		ONCE, DAILY, UNLIMITED
@@ -50,7 +49,7 @@ public class Quest extends Model{
 //		children = new ArrayList<Quest>();
 		objectives = new HashSet<Objective>();
 		//rewards = new Statistics();
-		reward = new HashMap<Constants.STATS, Integer>();
+		reward = new HashMap<String, Integer>();
 	}
 	
 	public Quest() {
@@ -110,11 +109,11 @@ public class Quest extends Model{
 		this.objectives = objectives;
 	}
 
-	public Map<Constants.STATS, Integer> getReward() {
+	public Map<String, Integer> getReward() {
 		return reward;
 	}
 
-	public void setReward(Map<Constants.STATS, Integer> reward) {
+	public void setReward(Map<String, Integer> reward) {
 		this.reward = reward;
 	}
 	
