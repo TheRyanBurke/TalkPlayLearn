@@ -49,6 +49,7 @@ public class User extends Model{
 	public User(String _googleId) {
 		googleId = _googleId;
 		displayname = "no name set";
+		pictureURL = "/public/img/profile.png";
 		quests = new HashSet<EngagedQuest>();
 		stats = new HashMap<String, Integer>();// new Statistics();
 		populateStats();

@@ -19,7 +19,7 @@
 		<tbody>
 			<tr>
 				<td>Socialness</td>
-				<td class="statsheet-value">{{ statList.Socialness }}</td>
+				<td class="statsheet-value">{{ stats.Socialness }}</td>
 			</tr>
 			<tr>
 				<td>Gamer</td>
@@ -34,7 +34,7 @@
 	</div>
 	
 	<div class="span2">
-		<img class="profilePic" src="@{'/public/img/profile.png'}"/>
+		<img class="profilePic" src="{{ pictureURL }}"/>
 	</div>
 	
 	<div class="span2">
@@ -58,7 +58,7 @@
 
 </div>
 <div class="row">
-	<div class="span6 quests">
+	<div class="span8 quests">
 	<b>User's Quests</b>
 	{{#quests}}
 		{{> engagedquest}}
