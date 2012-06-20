@@ -5,6 +5,9 @@
 # Home page
 GET     /                                       Application.index
 
+# Login
+GET		/application/login						Application.login
+
 # Begin quest
 GET		/application/beginquest/{userid}/{questid}/?	Application.beginQuest
 
@@ -15,6 +18,10 @@ POST	/user/tickobjective/?					UserController.tickObjective
 
 # Quests
 GET		/quests/questlist/?						QuestController.getQuests(format:'json')
+
+# Google OAuth
+GET		/oauth2callback						GoogleOAuth2.callback
+GET		/realcallback						GoogleOAuth2.realcallback
 
 # Ignore favicon requests
 GET     /favicon.ico                            404

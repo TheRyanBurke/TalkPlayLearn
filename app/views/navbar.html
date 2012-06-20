@@ -27,15 +27,7 @@
 	<a href="@{Application.logout()}">Logout</a> 
 #{/if}
 #{else}
-	#{form @Application.login() }
-	
-	<select name="userid">
-		#{list items:users, as:'user'}
-		<option value="${user.id}">${user.displayname}</option>
-		#{/list}
-	</select> 
-	<button class="btn btn-info" type="submit">Login</button>
-	#{/form}
+	<a href="@{GoogleOAuth2.googleLogin()}">Login</a>
 #{/else}
   </li>
 </ul>

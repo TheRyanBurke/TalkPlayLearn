@@ -24,7 +24,8 @@ import utils.Constants.STATS;
 @Entity
 public class User extends Model{
 	public String displayname;
-	public String username;
+	public String pictureURL;
+	public String googleId;
 	
 	@OneToMany(mappedBy = "quest")
 	public Set<EngagedQuest> quests;
@@ -45,9 +46,9 @@ public class User extends Model{
 	@ElementCollection
 	public Map<String, Integer> stats;
 	
-	public User(String _displayname, String _username) {
-		displayname = _displayname;
-		username = _username;
+	public User(String _googleId) {
+		googleId = _googleId;
+		displayname = "no name set";
 		quests = new HashSet<EngagedQuest>();
 		stats = new HashMap<String, Integer>();// new Statistics();
 		populateStats();
@@ -57,7 +58,7 @@ public class User extends Model{
 	}
 	
 	public User() {
-		this("no display name", "no username");
+		this("noGoogleId");
 	}
 	
 	private void populateStats() {

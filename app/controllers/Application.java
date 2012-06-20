@@ -28,7 +28,8 @@ public class Application extends Controller {
     	render(users, quests);
     }
     
-    public static void login(String userid) {
+    public static void login() {
+    	String userid = params.get("userid");
     	session.put(CURRENT_USER, userid);
     	index();
     }
