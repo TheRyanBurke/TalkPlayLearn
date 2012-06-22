@@ -4,7 +4,7 @@ $(function() {
 		if(userModel != null) {
 			paintUser(userModel);
 		} else {
-			$.get('/usercontroller/getcurrentuserforview', function(user) {
+			$.get('/user/current', function(user) {
 				if(user != null && user != "") {
 					paintUser(user);
 				}
@@ -28,7 +28,7 @@ $(function() {
 			
 			var $lastQuest = $('.questList .quest').last();
 			$lastQuest.find('button.beginQuest').click(function () {
-				$.post('/usercontroller/beginquest', {questid: $lastQuest.prop("id")}, 
+				$.post('/user/beginquest', {questid: $lastQuest.prop("id")}, 
 					function (data) {
 						paintCurrentUser();
 				});
@@ -50,7 +50,7 @@ $(function() {
 		
 		$.post("/user/tickobjective", 
 				{questId: $(this).closest(".quest").prop("id"), 
-				objectiveIndex: $(this).closest("li").prop("id"),
+				objectiveId: $(this).closest("li").prop("id"),
 				uptick: uptick}, 
 				function(user) {
 			paintCurrentUser(user);
@@ -59,7 +59,7 @@ $(function() {
 	
 	$("body").on("click", ".completeQuest", function() {
 		var questid = $(this).closest(".quest").prop("id");
-		$.post("/usercontroller/completequest",
+		$.post("/user/completequest",
 				{questid: questid},
 				function(user) {
 					paintCurrentUser(user);
@@ -71,7 +71,7 @@ $(function() {
 		var userid = this.id.split("-")[1];
 		$.ajax({
 			type: 'get',
-			url: '/usercontroller/user/' + userid,
+			url: '/user/user/' + userid,
 			error: function(response) {
 				
 			},

@@ -21,7 +21,7 @@ $(function() {
 		
 		quest.objectives = objectives;
 		
-		$.post('/questcontroller/create', {quest: JSON.stringify(quest)}, function(returnedQuest) {
+		$.post('/quest/new', {quest: JSON.stringify(quest)}, function(returnedQuest) {
 			$('.questList').append(ich.quest(returnedQuest));
 			$('.newQuestForm').html(ich.newQuest());
 			objectives = [];
@@ -36,7 +36,7 @@ $(function() {
 		objective.requiredCompletions = $('.objectives #completions').val();
 		objective.bonus = $('.objectives #bonus').prop("checked");
 		
-		$.post('/objectivecontroller/create', {objective: JSON.stringify(objective)}, function(returnedObjective) {
+		$.post('/objective/new', {objective: JSON.stringify(objective)}, function(returnedObjective) {
 			$('.objectiveList').append(ich.objective(returnedObjective));
 			$('.objectiveList').last().find('.engaged').hide();
 			objectives.push(returnedObjective);
