@@ -9,7 +9,7 @@ GET     /                                       Application.index
 GET 	/user/{userid}/?						UserAPI.getUser(format:'json')
 POST	/user/tickobjective/?					UserAPI.tickObjective(format:'json')
 POST	/user/completequest/?					UserAPI.completeQuest(format:'json')
-GET		/user/current/?							UserAPI.getCurrentUserForView(format:'json')
+# WTF doesnt work! GET		/user/current							UserAPI.getCurrentUserForView(format:'json')
 POST	/user/beginquest/?						UserAPI.beginQuest(format:'json')
 
 # Quests API

@@ -82,6 +82,8 @@ public class UserAPI extends Controller {
         if (session.get(CURRENT_USER) != null) {
             User u = User.findById(Long.parseLong(session.get(CURRENT_USER)));
             renderJSON(createUserJSON(u));
+        } else {
+            renderJSON("No user found");
         }
     }
 

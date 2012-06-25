@@ -4,7 +4,7 @@ $(function() {
 		if(userModel != null) {
 			paintUser(userModel);
 		} else {
-			$.get('/user/current', function(user) {
+			$.get('/userapi/getcurrentuserforview', function(user) {
 				if(user != null && user != "") {
 					paintUser(user);
 				}
