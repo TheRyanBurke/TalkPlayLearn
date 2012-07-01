@@ -1,6 +1,7 @@
 eclipse
 tmp
 bin
+lib
 .settings
 .classpath
 .project
