@@ -1,4 +1,4 @@
-#{form @UserController.awardPoint(), id:'form', enctype:'multipart/form-data' }
+#{form @UserAPI.awardPoint(), id:'form', enctype:'multipart/form-data' }
 I award:
 <select name="userId">
 #{list items:_users, as:'user'}
@@ -7,8 +7,8 @@ I award:
 </select>
 +1
 <select name="stat">
-#{list items:models.Statistics.STATS.values(), as:'statType'}
-	<option value="${statType}">${(statType as String).toLowerCase().capFirst()}</option>
+#{list items:_statTypes, as:'statType'}
+	<option value="${statType}">${statType}</option>
 #{/list}
 </select>
 for <input type="text" name="reason" />

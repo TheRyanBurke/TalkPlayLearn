@@ -17,11 +17,12 @@ $(function() {
 		$('.currentUser .collapse').collapse();
 		$('.currentUser .quests .unengaged').hide();
 		$('.currentUser .quests .engaged.completeIneligible').hide();
+		$('.currentUser .quests .complete').hide();
 	}
 	
 	paintCurrentUser();
 	
-	$.get('/quests/questlist', function(quests) {
+	$.get('/user/quests/eligible', function(quests) {
 		$('.questList').append("<h4>Quests</h4>");
 		$.each(quests, function(index, value) {
 			$('.questList').append(ich.quest(value));

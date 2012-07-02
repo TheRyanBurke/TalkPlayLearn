@@ -1,0 +1,16 @@
+<script id="awardPoint" type="text/html">
+I award:
+<select class="award user">
+{{#users}}
+	<option value="{{ id }}">{{ displayname }}</option>
+{{/users}}
+</select>
++1
+<select class="award statType">
+{{#statTypes}}
+	<option value="{{ . }}">{{ . }}</option>
+{{/statTypes}}
+</select>
+for <input type="text" name="reason" />
+<button type="submit" class="btn btn-success">Award!</button>
+</script>

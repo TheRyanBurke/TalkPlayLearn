@@ -1,10 +1,9 @@
 package controllers;
 
-
 public class QuestController extends Application {
 
-    public static void newQuest() {
-        render();
-    }
+	public static void newQuest() {
+		render();
+	}
 
 }
